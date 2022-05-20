@@ -1,0 +1,26 @@
+---
+nl:
+  decidim:
+    authorization_handlers:
+      extended_socio_demographic_authorization_handler:
+        explanation: Vul uw informatie in op het profiel
+        name: Extra informatie
+        fields:
+          age: Leeftijd
+          gender: Gender
+          scope_id: Wijk
+    verifications:
+      authorizations:
+        first_login:
+          actions:
+            extended_socio_demographic_authorization_handler: Verify with Additional informations
+      age_slice:
+        blank_option: Vul een leeftijdsgroep in
+      genders:
+        blank_option: Gelieve een geslacht in te voeren
+        man: Man
+        undefined: Niet gedefinieerd
+        woman: Vrouw
+  errors:
+    messages:
+      integer_only: Alleen geheel getal
