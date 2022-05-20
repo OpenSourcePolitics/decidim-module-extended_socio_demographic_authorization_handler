@@ -9,7 +9,8 @@ describe ExtendedSocioDemographicAuthorizationHandler do
       first_name: first_name,
       address: address,
       postal_code: postal_code,
-      city: city
+      city: city,
+      email: email
     )
   end
 
@@ -22,6 +23,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   let(:address) { "21 Jump Street" }
   let(:postal_code) { "1234" }
   let(:city) { "Nowhere" }
+  let(:email) { "user@example.org" }
 
   context "when the information is valid" do
     it "is valid" do
@@ -53,8 +55,32 @@ describe ExtendedSocioDemographicAuthorizationHandler do
     end
   end
 
+  context "when postal code is not a number" do
+    let(:postal_code) { "Some string" }
+
+    it "is valid" do
+      expect(subject).to be_invalid
+    end
+  end
+
   context "when city is nil" do
     let(:city) { nil }
+
+    it "is valid" do
+      expect(subject).to be_invalid
+    end
+  end
+
+  context "when email is nil" do
+    let(:email) { nil }
+
+    it "is valid" do
+      expect(subject).to be_invalid
+    end
+  end
+
+  context "when email is invalid" do
+    let(:email) { "something invalid" }
 
     it "is valid" do
       expect(subject).to be_invalid

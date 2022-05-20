@@ -43,6 +43,7 @@ describe "User authorizations", type: :system do
         expect(page).to have_field("Address")
         expect(page).to have_field("Postal code")
         expect(page).to have_field("City")
+        expect(page).to have_field("Email")
       end
     end
 
@@ -52,6 +53,7 @@ describe "User authorizations", type: :system do
       fill_in :authorization_handler_address, with: "21 Jump Street"
       fill_in :authorization_handler_postal_code, with: "1234"
       fill_in :authorization_handler_city, with: "Nowhere"
+      fill_in :authorization_handler_email, with: "user@example.org"
       click_button "Send"
 
       expect(page).to have_content("You've been successfully authorized")
