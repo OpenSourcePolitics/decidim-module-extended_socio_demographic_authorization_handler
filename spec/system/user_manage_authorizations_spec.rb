@@ -5,7 +5,6 @@ require "spec_helper"
 describe "User authorizations", type: :system do
   include Decidim::TranslatableAttributes
 
-  let!(:scope) { create_list(:scope, 3, organization: organization) }
   let!(:organization) do
     create(:organization,
            available_authorizations: ["extended_socio_demographic_authorization_handler"])
@@ -39,16 +38,14 @@ describe "User authorizations", type: :system do
       expect(page).to have_content "Additional informations"
 
       within ".new_authorization_handler" do
-        expect(page).to have_content("Scope")
-        expect(page).to have_field("Gender")
-        expect(page).to have_field("Age")
+        expect(page).to have_content("Last name")
+        expect(page).to have_field("First name")
       end
     end
 
     it "allows user to fill form" do
-      select(translated_attribute(organization.scopes.first.name), from: "Scope")
-      select("Man", from: "Gender")
-      select("16-25", from: "Age")
+      fill_in :authorization_handler_last_name, with: "Doe"
+      fill_in :authorization_handler_first_name, with: "John"
       click_button "Send"
 
       expect(page).to have_content("You've been successfully authorized")

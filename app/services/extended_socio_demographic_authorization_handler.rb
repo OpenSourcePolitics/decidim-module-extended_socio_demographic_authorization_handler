@@ -2,32 +2,13 @@
 
 # Allows to create a form for simple Socio Demographic authorization
 class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandler
-  attribute :scope_id, Integer
-  attribute :gender, String
-  attribute :age, String
+  attribute :last_name, String
+  attribute :first_name, String
 
-  GENDER = %w(woman man undefined).freeze
-  AGE_SLICE = %w(16-25 26-45 46-65 65+).freeze
-
-  validates :scope_id,
-            format: { with: /\A\d+\z/, message: I18n.t("errors.messages.integer_only"), if: proc { |x| !x.scope_id.nil? && validate_scope } },
-            presence: false
-
-  validates :gender,
-            inclusion: { in: GENDER, if: proc { |x| x.gender.present? } },
-            presence: false
-
-  validates :age,
-            inclusion: { in: AGE_SLICE, if: proc { |x| x.age.present? } },
-            presence: false
+  validates :last_name, presence: true
+  validates :first_name, presence: true
 
   def metadata
-    super.merge(scope_id: scope_id, gender: gender, age: age)
-  end
-
-  private
-
-  def validate_scope
-    errors.add(:scope_id, :invalid) if Decidim::Scope.where(id: scope_id).empty?
+    super.merge(last_name: last_name, first_name: first_name)
   end
 end

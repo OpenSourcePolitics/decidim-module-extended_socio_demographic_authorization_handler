@@ -4,29 +4,10 @@ fr:
     authorization_handlers:
       extended_socio_demographic_authorization_handler:
         explanation: Complétez les informations de votre profil
-        fields:
-          age: Âge
-          gender: Genre
-          scope_id: Périmètre
         name: Données personnelles
     verifications:
       authorizations:
         first_login:
           actions:
-            extended_socio_demographic_authorization_handler: Vérifier avec Données personnelles
-      age_slice:
-        blank_option: Veuillez renseigner une tranche d'âge
-      authorizations:
-        first_login:
-          actions:
-            extended_socio_demographic_authorization_handler: Vérifier avec Données personnelles
-      genders:
-        blank_option: Veuillez renseigner un genre
-        man: Homme
-        undefined: Non défini
-        woman: Femme
-      scope_id:
-        blank_option: Veuillez renseigner un périmètre
-  errors:
-    messages:
-      integer_only: Nombre entier requis
+            extended_socio_demographic_authorization_handler: Vérifier avec Données
+              personnelles
