@@ -40,12 +40,18 @@ describe "User authorizations", type: :system do
       within ".new_authorization_handler" do
         expect(page).to have_content("Last name")
         expect(page).to have_field("First name")
+        expect(page).to have_field("Address")
+        expect(page).to have_field("Postal code")
+        expect(page).to have_field("City")
       end
     end
 
     it "allows user to fill form" do
       fill_in :authorization_handler_last_name, with: "Doe"
       fill_in :authorization_handler_first_name, with: "John"
+      fill_in :authorization_handler_address, with: "21 Jump Street"
+      fill_in :authorization_handler_postal_code, with: "1234"
+      fill_in :authorization_handler_city, with: "Nowhere"
       click_button "Send"
 
       expect(page).to have_content("You've been successfully authorized")
