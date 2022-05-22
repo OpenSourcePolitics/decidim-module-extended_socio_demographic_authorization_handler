@@ -8,6 +8,7 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
   attribute :postal_code, String
   attribute :city, String
   attribute :email, String
+  attribute :phone_number, String
 
   validates :last_name, presence: true
   validates :first_name, presence: true
@@ -15,6 +16,7 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
   validates :postal_code, numericality: { only_integer: true }, presence: true
   validates :city, presence: true
   validates :email, format: { with: Devise.email_regexp }, presence: true
+  validates :phone_number, format: { with: /(0|\+33)[1-9]([-.]?[0-9]{2}){3}([-.]?[0-9]{2})/ }, presence: true
 
   def metadata
     super.merge(
