@@ -11,7 +11,9 @@ describe ExtendedSocioDemographicAuthorizationHandler do
       postal_code: postal_code,
       city: city,
       email: email,
-      phone_number: phone_number
+      phone_number: phone_number,
+      resident: resident,
+      rgpd: rgpd
     )
   end
 
@@ -26,6 +28,8 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   let(:city) { "Nowhere" }
   let(:email) { "user@example.org" }
   let(:phone_number) { "+33640123422" }
+  let(:resident) { "1" }
+  let(:rgpd) { "1" }
 
   context "when the information is valid" do
     it "is valid" do
@@ -36,7 +40,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   context "when name is nil" do
     let(:last_name) { nil }
 
-    it "is valid" do
+    it "is invalid" do
       expect(subject).to be_invalid
     end
   end
@@ -44,7 +48,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   context "when first name is nil" do
     let(:first_name) { nil }
 
-    it "is valid" do
+    it "is invalid" do
       expect(subject).to be_invalid
     end
   end
@@ -52,7 +56,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   context "when postal code is nil" do
     let(:postal_code) { nil }
 
-    it "is valid" do
+    it "is invalid" do
       expect(subject).to be_invalid
     end
   end
@@ -60,7 +64,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   context "when postal code is not a number" do
     let(:postal_code) { "Some string" }
 
-    it "is valid" do
+    it "is invalid" do
       expect(subject).to be_invalid
     end
   end
@@ -68,7 +72,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   context "when city is nil" do
     let(:city) { nil }
 
-    it "is valid" do
+    it "is invalid" do
       expect(subject).to be_invalid
     end
   end
@@ -76,7 +80,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   context "when email is nil" do
     let(:email) { nil }
 
-    it "is valid" do
+    it "is invalid" do
       expect(subject).to be_invalid
     end
   end
@@ -84,7 +88,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   context "when email is invalid" do
     let(:email) { "something invalid" }
 
-    it "is valid" do
+    it "is invalid" do
       expect(subject).to be_invalid
     end
   end
@@ -92,7 +96,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   context "when phone number is nil" do
     let(:phone_number) { nil }
 
-    it "is valid" do
+    it "is invalid" do
       expect(subject).to be_invalid
     end
   end
@@ -100,7 +104,23 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   context "when phone number is invalid" do
     let(:phone_number) { 1234 }
 
-    it "is valid" do
+    it "is invalid" do
+      expect(subject).to be_invalid
+    end
+  end
+
+  context "when resident is nil" do
+    let(:resident) { "0" }
+
+    it "is invalid" do
+      expect(subject).to be_invalid
+    end
+  end
+
+  context "when rgpd is nil" do
+    let(:rgpd) { "0" }
+
+    it "is invalid" do
       expect(subject).to be_invalid
     end
   end

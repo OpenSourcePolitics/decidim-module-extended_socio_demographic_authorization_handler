@@ -45,6 +45,8 @@ describe "User authorizations", type: :system do
         expect(page).to have_field("City")
         expect(page).to have_field("Email")
         expect(page).to have_field("Phone number")
+        expect(page).to have_field("Resident")
+        expect(page).to have_field("Rgpd")
       end
     end
 
@@ -56,6 +58,8 @@ describe "User authorizations", type: :system do
       fill_in :authorization_handler_city, with: "Nowhere"
       fill_in :authorization_handler_email, with: "user@example.org"
       fill_in :authorization_handler_phone_number, with: "+33654321234"
+      check :authorization_handler_resident
+      check :authorization_handler_rgpd
       click_button "Send"
 
       expect(page).to have_content("You've been successfully authorized")
