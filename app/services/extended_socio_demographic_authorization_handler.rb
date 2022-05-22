@@ -17,8 +17,10 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
   validates :address, presence: true
   validates :postal_code, numericality: { only_integer: true }, presence: true
   validates :city, presence: true
-  validates :email, format: { with: Devise.email_regexp }, presence: true
-  validates :phone_number, format: { with: /(0|\+33)[1-9]([-.]?[0-9]{2}){3}([-.]?[0-9]{2})/ }, presence: true
+  validates :email, presence: true, unless: ->(form) { form.phone_number.present? }
+  validates :email, format: { with: Devise.email_regexp }, if: ->(form) { form.email.present? }
+  validates :phone_number, presence: true, unless: ->(form) { form.email.present? }
+  validates :phone_number, format: { with: /(0|\+33)[1-9]([-.]?[0-9]{2}){3}([-.]?[0-9]{2})/ }, if: ->(form) { form.phone_number.present? }
   validates :resident, acceptance: true
   validates :rgpd, acceptance: true
 
@@ -32,7 +34,7 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
       email: email,
       phone_number: phone_number,
       resident: resident,
-      rgpd: rgpd,
+      rgpd: rgpd
     )
   end
 end
