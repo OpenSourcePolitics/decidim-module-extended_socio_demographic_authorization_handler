@@ -25,17 +25,24 @@
     </div>
     <div class="columns medium-8">
       <div class="field">
-        <%= form.text_field :city %>
+        <%= form.select :city, [] %>
       </div>
     </div>
   </div>
 
-  <div class="field">
-    <%= form.text_field :email %>
+  <div class="row">
+    <div class="columns medium-8">
+      <div class="field">
+        <%= form.text_field :email %>
+      </div>
+    </div>
+    <div class="columns medium-4">
+      <div class="field">
+        <%= form.text_field :phone_number %>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <%= form.text_field :phone_number %>
-  </div>
+
   <div class="field">
     <%= form.check_box :resident %>
   </div>

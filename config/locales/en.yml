@@ -1,12 +1,12 @@
 ---
 en:
   decidim:
+    authorization_handlers:
+      extended_socio_demographic_authorization_handler:
+        explanation: Complete your profile with additional informations
+        name: Additional informations
     verifications:
       authorizations:
         first_login:
           actions:
             extended_socio_demographic_authorization_handler: Additional informations
-    authorization_handlers:
-      extended_socio_demographic_authorization_handler:
-        explanation: Complete your profile with additional informations
-        name: Additional informations

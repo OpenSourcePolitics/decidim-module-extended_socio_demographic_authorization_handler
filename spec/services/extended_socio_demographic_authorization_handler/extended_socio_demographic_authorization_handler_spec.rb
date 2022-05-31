@@ -101,40 +101,54 @@ describe ExtendedSocioDemographicAuthorizationHandler do
     end
   end
 
-  context "when phone number and email are nil" do
-    let(:email) { nil }
-    let(:phone_number) { nil }
-
-    it "is invalid" do
-      expect(subject).to be_invalid
-    end
-  end
-
-  context "when phone number is nil email is present" do
-    let(:phone_number) { nil }
-
+  context "with phone number and email" do
     it "is valid" do
       expect(subject).to be_valid
     end
-  end
 
-  context "when phone number is present and  email is nil" do
-    let(:email) { nil }
+    context "and phone number is nil" do
+      let(:phone_number) { nil }
 
-    it "is valid" do
-      expect(subject).to be_valid
+      it "is valid" do
+        expect(subject).to be_valid
+      end
+    end
+
+    context "and email is nil" do
+      let(:email) { nil }
+
+      it "is valid" do
+        expect(subject).to be_valid
+      end
+    end
+
+    context "and both phone number and email are nil" do
+      let(:email) { nil }
+      let(:phone_number) { nil }
+
+      it "is invalid" do
+        expect(subject).to be_invalid
+      end
+    end
+
+    context "with invalid phone number" do
+      let(:phone_number) { 1234 }
+
+      it "form is invalid" do
+        expect(subject).to be_invalid
+      end
+    end
+
+    context "with invalid email" do
+      let(:email) { "invalid.email.com" }
+
+      it "form is invalid" do
+        expect(subject).to be_invalid
+      end
     end
   end
 
-  context "when phone number is invalid" do
-    let(:phone_number) { 1234 }
-
-    it "is invalid" do
-      expect(subject).to be_invalid
-    end
-  end
-
-  context "when resident is nil" do
+  context "when resident is false" do
     let(:resident) { "0" }
 
     it "is invalid" do
@@ -142,7 +156,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
     end
   end
 
-  context "when rgpd is nil" do
+  context "when rgpd is false" do
     let(:rgpd) { "0" }
 
     it "is invalid" do
