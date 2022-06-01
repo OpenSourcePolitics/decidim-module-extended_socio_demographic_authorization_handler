@@ -22,32 +22,34 @@
   <div class="row">
     <div class="columns medium-4">
       <div class="field">
-        <%= form.text_field :postal_code %>
+        <%= form.text_field :postal_code, pattern: "[0-9]+" %>
       </div>
     </div>
     <div class="columns medium-8">
       <div class="field">
-        <%= form.select :city, [] %>
+        <%= form.select :city, [], include_blank: "Select city thanks to postal code field" %>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="columns medium-8">
+  <fieldset >
+    <legend>Legend fieldset</legend>
+
+    <div class="columns">
       <div class="field">
-        <%= form.text_field :email %>
+        <%= form.text_field :email, placeholder: "example@example.org", type: "email" %>
       </div>
     </div>
-    <div class="columns medium-4">
+    <div class="columns">
       <div class="field">
-        <%= form.text_field :phone_number %>
+        <%= form.text_field :phone_number, type: "tel", placeholder: "0601010101" %>
       </div>
     </div>
 
     <div class="columns margin-0">
       <small><em><%= t(".email_or_phone_field") %></em></small>
     </div>
-  </div>
+  </fieldset>
 
   <div class="field">
     <%= form.check_box :resident %>
