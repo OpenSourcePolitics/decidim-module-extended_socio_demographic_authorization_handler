@@ -1,5 +1,4 @@
 <%= hidden_field :authorization_handler, :handler_name, value: "extended_socio_demographic_authorization_handler" %>
-<%= javascript_pack_tag "extended_socio_demographic_authorization_handler" %>
 
 <div class="card-section">
   <div class="row">
@@ -33,7 +32,7 @@
   </div>
 
   <fieldset >
-    <legend>Legend fieldset</legend>
+    <legend><%= t(".email_or_phone_legend") %></legend>
 
     <div class="columns">
       <div class="field">
@@ -51,10 +50,19 @@
     </div>
   </fieldset>
 
-  <div class="field">
-    <%= form.check_box :resident %>
-  </div>
-  <div class="field">
-    <%== form.check_box :rgpd %>
+  <div class="row">
+    <div class="columns">
+      <div class="field">
+        <%= form.check_box :resident %>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="field">
+        <%== form.check_box :rgpd %>
+      </div>
+    </div>
   </div>
 </div>
+
+<%= javascript_pack_tag "extended_socio_demographic_authorization_handler" %>
+<%= stylesheet_pack_tag "extended_socio_demographic_css" %>

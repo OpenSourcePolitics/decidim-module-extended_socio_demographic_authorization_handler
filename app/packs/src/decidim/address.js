@@ -25,5 +25,5 @@ $("#authorization_handler_postal_code").on("input", (e) => {
                 setCityOption($authorizationHandlerCity, cities[i]);
             }
         }
-}
+    }
 })
