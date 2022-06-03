@@ -1,28 +1,68 @@
 <%= hidden_field :authorization_handler, :handler_name, value: "extended_socio_demographic_authorization_handler" %>
+
 <div class="card-section">
-  <div class="field">
-    <%= form.select :scope_id,
-                    current_organization.scopes.map { |scopes| [translated_attribute(scopes.name), scopes.id] },
-                    {
-                        include_blank: t('decidim.verifications.scope_id.blank_option'),
-                        label: t("scope_id", scope: "decidim.authorization_handlers.extended_socio_demographic_authorization_handler.fields")
-                    } %>
-  </div>
-  <div class="field">
-    <%= form.select :gender,
-                    %w(Woman Man Undefined).map { |gender| [I18n.t(gender.downcase, scope: "decidim.verifications.genders"), gender.downcase] },
-                    {
-                        include_blank: t('decidim.verifications.genders.blank_option'),
-                        label: t("gender", scope: "decidim.authorization_handlers.extended_socio_demographic_authorization_handler.fields")
-                    } %>
+  <div class="row">
+    <div class="columns medium-6">
+      <div class="field">
+        <%= form.text_field :last_name %>
+      </div>
+    </div>
+    <div class="columns medium-6">
+      <div class="field">
+        <%= form.text_field :first_name %>
+      </div>
+    </div>
   </div>
 
   <div class="field">
-    <%= form.select :age,
-                    %w(16-25 26-45 46-65 65+).map { |slice| [slice, slice] },
-                    {
-                        include_blank: t('decidim.verifications.age_slice.blank_option'),
-                        label: t("age", scope: "decidim.authorization_handlers.extended_socio_demographic_authorization_handler.fields")
-                    } %>
+    <%= form.text_field :address %>
+  </div>
+
+  <div class="row">
+    <div class="columns medium-4">
+      <div class="field">
+        <%= form.text_field :postal_code, pattern: "[0-9]+" %>
+      </div>
+    </div>
+    <div class="columns medium-8">
+      <div class="field">
+        <%= form.select :city, [], {}, disabled: "disabled" %>
+      </div>
+    </div>
+  </div>
+
+  <fieldset >
+    <legend><%= t(".email_or_phone_legend") %></legend>
+
+    <div class="columns">
+      <div class="field">
+        <%= form.text_field :email, placeholder: "example@example.org", type: "email" %>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="field">
+        <%= form.text_field :phone_number, type: "tel", placeholder: "0601010101" %>
+      </div>
+    </div>
+
+    <div class="columns margin-0">
+      <small><em><%= t(".email_or_phone_field") %></em></small>
+    </div>
+  </fieldset>
+
+  <div class="row">
+    <div class="columns">
+      <div class="field">
+        <%= form.check_box :resident %>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="field">
+        <%== form.check_box :rgpd %>
+      </div>
+    </div>
   </div>
 </div>
+
+<%= javascript_pack_tag "extended_socio_demographic_authorization_handler" %>
+<%= stylesheet_pack_tag "extended_socio_demographic_css" %>

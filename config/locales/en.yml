@@ -4,26 +4,14 @@ en:
     authorization_handlers:
       extended_socio_demographic_authorization_handler:
         explanation: Complete your profile with additional informations
-        fields:
-          age: Age
-          gender: Gender
-          scope_id: Scope
         name: Additional informations
     verifications:
-      age_slice:
-        blank_option: Please specify an age slice
       authorizations:
         first_login:
           actions:
-            extended_socio_demographic_authorization_handler: Verify with Additional
-              informations
-      genders:
-        blank_option: Please specify a gender
-        man: Man
-        undefined: Undefined
-        woman: Woman
-      scope_id:
-        blank_option: Blank option
-  errors:
-    messages:
-      integer_only: Integer only
+            extended_socio_demographic_authorization_handler: Additional informations
+  extended_socio_demographic_authorization:
+    form:
+      email_or_phone_field: You must provide at least one field between email or phone
+        number.
+      email_or_phone_legend: Contact informations

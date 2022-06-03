@@ -2,32 +2,49 @@
 
 # Allows to create a form for simple Socio Demographic authorization
 class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandler
-  attribute :scope_id, Integer
-  attribute :gender, String
-  attribute :age, String
+  attribute :last_name, String
+  attribute :first_name, String
+  attribute :address, String
+  attribute :postal_code, String
+  attribute :city, String
+  attribute :email, String
+  attribute :phone_number, String
+  attribute :resident, Boolean
+  attribute :rgpd, Boolean
 
-  GENDER = %w(woman man undefined).freeze
-  AGE_SLICE = %w(16-25 26-45 46-65 65+).freeze
+  validates :last_name, presence: true
+  validates :first_name, presence: true
+  validates :address, presence: true
+  validates :postal_code, numericality: { only_integer: true }, presence: true
+  validates :city, presence: true
+  validates :email, format: { with: Devise.email_regexp }, if: ->(form) { form.email.present? }
+  validates :phone_number, format: { with: /(0|\+33)[1-9]([-.]?[0-9]{2}){3}([-.]?[0-9]{2})/ }, if: ->(form) { form.phone_number.present? }
+  validates :resident, acceptance: true, presence: true
+  validates :rgpd, acceptance: true, presence: true
 
-  validates :scope_id,
-            format: { with: /\A\d+\z/, message: I18n.t("errors.messages.integer_only"), if: proc { |x| !x.scope_id.nil? && validate_scope } },
-            presence: false
-
-  validates :gender,
-            inclusion: { in: GENDER, if: proc { |x| x.gender.present? } },
-            presence: false
-
-  validates :age,
-            inclusion: { in: AGE_SLICE, if: proc { |x| x.age.present? } },
-            presence: false
+  validate :email_or_phone_field
 
   def metadata
-    super.merge(scope_id: scope_id, gender: gender, age: age)
+    super.merge(
+      last_name: last_name,
+      first_name: first_name,
+      address: address,
+      postal_code: postal_code,
+      city: city,
+      email: email,
+      phone_number: phone_number,
+      resident: resident,
+      rgpd: rgpd
+    )
   end
 
   private
 
-  def validate_scope
-    errors.add(:scope_id, :invalid) if Decidim::Scope.where(id: scope_id).empty?
+  def email_or_phone_field
+    return if email.present?
+    return if phone_number.present?
+
+    errors.add(:email, :empty)
+    errors.add(:phone_number, :empty)
   end
 end
