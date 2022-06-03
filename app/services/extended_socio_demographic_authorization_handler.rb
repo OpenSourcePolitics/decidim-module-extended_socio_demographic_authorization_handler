@@ -17,12 +17,12 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
   validates :address, presence: true
   validates :postal_code, numericality: { only_integer: true }, presence: true
   validates :city, presence: true
-  validates :email, presence: true, unless: ->(form) { form.phone_number.present? }
   validates :email, format: { with: Devise.email_regexp }, if: ->(form) { form.email.present? }
-  validates :phone_number, presence: true, unless: ->(form) { form.email.present? }
   validates :phone_number, format: { with: /(0|\+33)[1-9]([-.]?[0-9]{2}){3}([-.]?[0-9]{2})/ }, if: ->(form) { form.phone_number.present? }
-  validates :resident, acceptance: true
-  validates :rgpd, acceptance: true
+  validates :resident, acceptance: true, presence: true
+  validates :rgpd, acceptance: true, presence: true
+
+  validate :email_or_phone_field
 
   def metadata
     super.merge(
@@ -36,5 +36,15 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
       resident: resident,
       rgpd: rgpd
     )
+  end
+
+  private
+
+  def email_or_phone_field
+    return if email.present?
+    return if phone_number.present?
+
+    errors.add(:email, :empty)
+    errors.add(:phone_number, :empty)
   end
 end

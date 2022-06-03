@@ -5,3 +5,13 @@ en:
       extended_socio_demographic_authorization_handler:
         explanation: Complete your profile with additional informations
         name: Additional informations
+    verifications:
+      authorizations:
+        first_login:
+          actions:
+            extended_socio_demographic_authorization_handler: Additional informations
+  extended_socio_demographic_authorization:
+    form:
+      email_or_phone_field: You must provide at least one field between email or phone
+        number.
+      email_or_phone_legend: Contact informations

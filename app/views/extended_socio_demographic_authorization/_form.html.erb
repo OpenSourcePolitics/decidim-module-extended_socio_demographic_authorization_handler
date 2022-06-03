@@ -1,30 +1,68 @@
 <%= hidden_field :authorization_handler, :handler_name, value: "extended_socio_demographic_authorization_handler" %>
+
 <div class="card-section">
-  <div class="field">
-    <%= form.text_field :last_name %>
+  <div class="row">
+    <div class="columns medium-6">
+      <div class="field">
+        <%= form.text_field :last_name %>
+      </div>
+    </div>
+    <div class="columns medium-6">
+      <div class="field">
+        <%= form.text_field :first_name %>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <%= form.text_field :first_name %>
-  </div>
+
   <div class="field">
     <%= form.text_field :address %>
   </div>
-  <div class="field">
-    <%= form.text_field :postal_code %>
+
+  <div class="row">
+    <div class="columns medium-4">
+      <div class="field">
+        <%= form.text_field :postal_code, pattern: "[0-9]+" %>
+      </div>
+    </div>
+    <div class="columns medium-8">
+      <div class="field">
+        <%= form.select :city, [], {}, disabled: "disabled" %>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <%= form.text_field :city %>
-  </div>
-  <div class="field">
-    <%= form.text_field :email %>
-  </div>
-  <div class="field">
-    <%= form.text_field :phone_number %>
-  </div>
-  <div class="field">
-    <%= form.check_box :resident %>
-  </div>
-  <div class="field">
-    <%== form.check_box :rgpd %>
+
+  <fieldset >
+    <legend><%= t(".email_or_phone_legend") %></legend>
+
+    <div class="columns">
+      <div class="field">
+        <%= form.text_field :email, placeholder: "example@example.org", type: "email" %>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="field">
+        <%= form.text_field :phone_number, type: "tel", placeholder: "0601010101" %>
+      </div>
+    </div>
+
+    <div class="columns margin-0">
+      <small><em><%= t(".email_or_phone_field") %></em></small>
+    </div>
+  </fieldset>
+
+  <div class="row">
+    <div class="columns">
+      <div class="field">
+        <%= form.check_box :resident %>
+      </div>
+    </div>
+    <div class="columns">
+      <div class="field">
+        <%== form.check_box :rgpd %>
+      </div>
+    </div>
   </div>
 </div>
+
+<%= javascript_pack_tag "extended_socio_demographic_authorization_handler" %>
+<%= stylesheet_pack_tag "extended_socio_demographic_css" %>

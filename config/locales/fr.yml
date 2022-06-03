@@ -11,3 +11,7 @@ fr:
           actions:
             extended_socio_demographic_authorization_handler: Vérifier avec Données
               personnelles
+  extended_socio_demographic_authorization:
+    form:
+      email_or_phone_field: Veuillez renseigner au moins votre e-mail ou numéro de téléphone, ou les deux.
+      email_or_phone_legend: Informations de contact
