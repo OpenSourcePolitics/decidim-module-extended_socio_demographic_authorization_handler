@@ -22,6 +22,7 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
   validates :resident, acceptance: true, presence: true
   validates :rgpd, acceptance: true, presence: true
 
+  validates_length_of :postal_code, minimum: 5, maximum: 5
   validate :email_or_phone_field
 
   def metadata
