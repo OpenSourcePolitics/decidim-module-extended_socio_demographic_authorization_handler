@@ -4,24 +4,24 @@
   <div class="row">
     <div class="columns medium-6">
       <div class="field">
-        <%= form.text_field :first_name, minlength: 2, pattern: "[A-Za-z]+" %>
+        <%= form.text_field :first_name, minlength: 2, pattern: "[A-Za-z]+", autocomplete: "given-name" %>
       </div>
     </div>
     <div class="columns medium-6">
       <div class="field">
-        <%= form.text_field :last_name, minlength: 2, pattern: "[A-Za-z]+" %>
+        <%= form.text_field :last_name, minlength: 2, pattern: "[A-Za-z]+", autocomplete: "family-name" %>
       </div>
     </div>
   </div>
 
   <div class="field">
-    <%= form.text_field :address %>
+    <%= form.text_field :address, placeholder: "10 avenue de la mairie", autocomplete: "street-address" %>
   </div>
 
   <div class="row">
     <div class="columns medium-4">
       <div class="field">
-        <%= form.text_field :postal_code, pattern: "^[0-9]+$", minlength: 5, maxlength: 5 %>
+        <%= form.text_field :postal_code, pattern: "^[0-9]+$", minlength: 5, maxlength: 5, autocomplete: "postal-code" %>
       </div>
     </div>
     <div class="columns medium-8">
@@ -40,12 +40,12 @@
 
     <div class="columns">
       <div class="field">
-        <%= form.text_field :email, placeholder: "example@example.org", type: "email" %>
+        <%= form.text_field :email, placeholder: "example@example.org", type: "email", autocomplete: "email" %>
       </div>
     </div>
     <div class="columns">
       <div class="field">
-        <%= form.text_field :phone_number, type: "tel", placeholder: "0601010101" %>
+        <%= form.text_field :phone_number, type: "tel", placeholder: "0601010101", autocomplete: "tel" %>
       </div>
     </div>
 
