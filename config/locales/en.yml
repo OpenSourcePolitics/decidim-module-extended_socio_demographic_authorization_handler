@@ -12,8 +12,9 @@ en:
             extended_socio_demographic_authorization_handler: Additional informations
   extended_socio_demographic_authorization:
     form:
-      postal_code:
-        help_message: Please fill the postal code field to be able to select your city
       email_or_phone_field: You must provide at least one field between email or phone
         number.
       email_or_phone_legend: Contact informations
+      postal_code:
+        help_message: Please fill the postal code field to be able to select your
+          city
