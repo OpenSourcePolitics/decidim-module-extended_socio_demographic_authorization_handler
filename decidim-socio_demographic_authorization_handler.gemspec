@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.name = "decidim-extended_socio_demographic_authorization_handler"
   s.summary = "A decidim extended_socio_demographic_authorization_handler module"
-  s.description = "Description."
+  s.description = "Authorization Handler that asks for personal information to the user. It contains a postal code / city completion through La Poste's API"
 
   s.files = Dir["{app,config,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "README.md"]
 
