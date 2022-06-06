@@ -12,11 +12,10 @@ describe "User authorizations", type: :system do
 
   let(:user) { create(:user, :confirmed) }
 
-
   before do
-    stub_request(:get, /datanova.laposte.fr/).
-      with(headers: {'Accept'=>'application/json'}).
-      to_return(status: 200, body: {"nhits": 1, "parameters": {"dataset": "laposte_hexasmal", "q": "75018", "rows": 10, "start": 0, "facet": ["code_postal", "ligne_10"], "format": "json", "timezone": "UTC"}, "records": [{"datasetid": "laposte_hexasmal", "recordid": "29faec4345bff1b24c52cc6e6bc9ddfa899eb862", "fields": {"nom_de_la_commune": "PARIS 18", "libelle_d_acheminement": "PARIS 18", "code_postal": "75018", "coordonnees_gps": [48.892570317, 2.3481765980000002], "code_commune_insee": "75118"}, "geometry": {"type": "Point", "coordinates": [2.3481765980000002, 48.892570317]}, "record_timestamp": "2022-03-20T23:35:00Z"}], "facet_groups": [{"name": "code_postal", "facets": [{"name": "75018", "count": 1, "state": "displayed", "path": "75018"}]}]}.to_json, headers: {})
+    stub_request(:get, /datanova.laposte.fr/)
+      .with(headers: { "Accept" => "application/json" })
+      .to_return(status: 200, body: { "nhits": 1, "parameters": { "dataset": "laposte_hexasmal", "q": "75018", "rows": 10, "start": 0, "facet": %w(code_postal ligne_10), "format": "json", "timezone": "UTC" }, "records": [{ "datasetid": "laposte_hexasmal", "recordid": "29faec4345bff1b24c52cc6e6bc9ddfa899eb862", "fields": { "nom_de_la_commune": "PARIS 18", "libelle_d_acheminement": "PARIS 18", "code_postal": "75018", "coordonnees_gps": [48.892570317, 2.3481765980000002], "code_commune_insee": "75118" }, "geometry": { "type": "Point", "coordinates": [2.3481765980000002, 48.892570317] }, "record_timestamp": "2022-03-20T23:35:00Z" }], "facet_groups": [{ "name": "code_postal", "facets": [{ "name": "75018", "count": 1, "state": "displayed", "path": "75018" }] }] }.to_json, headers: {})
 
     switch_to_host(organization.host)
     login_as user, scope: :user
