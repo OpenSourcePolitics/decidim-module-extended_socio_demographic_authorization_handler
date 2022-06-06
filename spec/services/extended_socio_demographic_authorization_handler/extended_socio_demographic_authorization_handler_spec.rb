@@ -24,7 +24,7 @@ describe ExtendedSocioDemographicAuthorizationHandler do
   let(:last_name) { "Doe" }
   let(:first_name) { "John" }
   let(:address) { "21 Jump Street" }
-  let(:postal_code) { "1234" }
+  let(:postal_code) { "75018" }
   let(:city) { "Nowhere" }
   let(:email) { "user@example.org" }
   let(:phone_number) { "+33640123422" }
@@ -53,19 +53,37 @@ describe ExtendedSocioDemographicAuthorizationHandler do
     end
   end
 
-  context "when postal code is nil" do
-    let(:postal_code) { nil }
+  context "with postal code" do
+    context "and nil" do
+      let(:postal_code) { nil }
 
-    it "is invalid" do
-      expect(subject).to be_invalid
+      it "is invalid" do
+        expect(subject).to be_invalid
+      end
     end
-  end
 
-  context "when postal code is not a number" do
-    let(:postal_code) { "Some string" }
+    context "and not a number" do
+      let(:postal_code) { "Some string" }
 
-    it "is invalid" do
-      expect(subject).to be_invalid
+      it "is invalid" do
+        expect(subject).to be_invalid
+      end
+    end
+
+    context "and length inferior than 5 chars" do
+      let(:postal_code) { "1234" }
+
+      it "is invalid" do
+        expect(subject).to be_invalid
+      end
+    end
+
+    context "and length greater than 5 chars" do
+      let(:postal_code) { "123456" }
+
+      it "is invalid" do
+        expect(subject).to be_invalid
+      end
     end
   end
 

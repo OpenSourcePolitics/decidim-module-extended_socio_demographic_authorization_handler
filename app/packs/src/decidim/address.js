@@ -1,96 +1,146 @@
-const codesPostaux = require('codes-postaux');
+// Manages session storage
+class SessionStorageManager {
+    constructor() {
+    }
 
-// Appends cities found in the select field as HTML option field
-const setCityOption = ($element, city, selected = false) => {
-    const selectedAttr = selected ? 'selected="selected"' : '';
+    store(key, value) {
+        sessionStorage.setItem(key, JSON.stringify(value));
+    }
 
-    if ('libelleAcheminement' in city) {
-        $element.append(`<option value="${city.libelleAcheminement}" ${selectedAttr}>${city.libelleAcheminement}</option>`);
+    get(key) {
+        return JSON.parse(sessionStorage.getItem(key));
+    }
+
+    exists(postalCode) {
+        return (postalCode in sessionStorage);
     }
 }
 
-// Store the cities found in local storage
-// Allows to keep the given list if postal code is filled and an error happen on the form
-const setLocalStorage = (array) => {
-    if (array.length > 0) {
-        localStorage.setItem('cities', JSON.stringify(array));
+// Find cities according to given postal code
+// Priority to existing session storage key, if not found execute an API Call
+class AhApi {
+    constructor(sessionStorageManager) {
+        this.sessionStorageManager = sessionStorageManager;
+        this.records = [];
+    }
+
+    citiesFor(postalCode) {
+        this.records = this.fetchCities(postalCode);
+        return this.records;
+    }
+
+    // returns cities for a given postal code
+    fetchCities(postalCode) {
+        let results;
+
+        if (this.sessionStorageManager.exists(postalCode)) {
+           results = this.sessionStorageManager.get(postalCode);
+        } else {
+           let records = this.fetchFromApi(postalCode);
+           records = records.responseJSON.records.map(item => item.fields);
+           results = Array.from(new Set(records.map(record => record.nom_de_la_commune)));
+
+            this.sessionStorageManager.store(postalCode, results);
+        }
+
+       return results;
+    }
+
+    // Fetch cities for a given postal code against defined Api
+    fetchFromApi(postalCode) {
+        return $.ajax({async: false, crossDomain: true, url: this.builtApiUrl(postalCode), method: "GET", headers: {
+            "accept": "application/json",
+            }}).done((data) => {
+                return data.records;
+        });
+    }
+
+    // search for the postal code in session storage
+    fetchFromSessionStorage(postalCode) {
+        return JSON.parse(sessionStorage.getItem(postalCode));
+    }
+
+    // returns the API Url for the given postal code
+    builtApiUrl(postalCode) {
+        return `https://datanova.laposte.fr/api/records/1.0/search/?dataset=laposte_hexasmal&q=${postalCode}&facet=code_postal&facet=ligne_10`
     }
 }
 
-// Clear the cities of the local storage
-const clearLocalStorage = () => {
-    localStorage.removeItem('cities');
-}
-
-// Fetch cities from local storage
-const getCities = () => {
-    return JSON.parse(localStorage.getItem('cities'));
-}
-
-// Remove items from city select field
-// Enabled : Optional - Allows to disable or not the select HTML tag
-const clearCities = ($element, enabled = true) => {
-    $element.empty();
-
-    if (!enabled) {
-        $element.attr("disabled", "disabled");
-    } else {
-        $element.removeAttr("disabled")
+// Manipulates AH HTML Form in DOM
+class AhFormHTML {
+    constructor($citiesSelectElement) {
+        this.$citiesSelectElement = $citiesSelectElement;
     }
-}
+
 
 // Create cities HTML options in select field
 // It clears the previous list before
-const setCities = ($element, cities) => {
-    clearCities($element);
+    setCities(cities) {
+        this.clearCities();
 
-    if (cities.length === 1) {
-        setCityOption($element, cities[0], true);
-    } else {
-        for (let i = 0; i < cities.length; i++) {
-            setCityOption($element, cities[i]);
+        if (cities.length === 1) {
+            this.setCityOption(cities[0], true);
+        } else {
+            for (let i = 0; i < cities.length; i++) {
+                this.setCityOption(cities[i]);
+            }
         }
     }
+
+
+// Appends cities found in the select field as HTML option field
+    setCityOption(city, selected = false) {
+        const selectedAttr = selected ? 'selected="selected"' : '';
+
+        this.$citiesSelectElement.append(`<option value="${city}" ${selectedAttr}>${city}</option>`);
+    }
+
+
+// Remove items from city select field
+// Enabled : Optional - Allows to disable or not the select HTML tag
+    clearCities(enabled = true) {
+        this.$citiesSelectElement.empty();
+
+        if (!enabled) {
+            this.$citiesSelectElement.attr("disabled", "disabled");
+        } else {
+            this.$citiesSelectElement.removeAttr("disabled")
+        }
+    }
+
 }
 
-// For each input on the postal code field, it looks for the corresponding city for the given postal code
-// While the postal code length is under 5, it clears the select field
-// Otherwise it stores the cities found in local storage and append to select field
-$("#authorization_handler_postal_code").on("input", (e) => {
-    const $element = $(e.currentTarget);
-    const value = $element.val();
-    const $authorizationHandlerCity = $("#authorization_handler_city");
-
-    if (value.length > 4) {
-        let cities = codesPostaux.find(value);
-
-        clearCities($authorizationHandlerCity);
-        setLocalStorage(cities);
-        setCities($authorizationHandlerCity, cities);
-    } else {
-        clearCities($authorizationHandlerCity, false);
-        clearLocalStorage()
-    }
-})
-
-// Clears the cities list when postal code changes and is under 5 chars
-$("#authorization_handler_postal_code").on("change", (e) => {
-    const $element = $(e.currentTarget);
-    const value = $element.val();
-    const $authorizationHandlerCity = $("#authorization_handler_city");
-
-    if (value.length < 5) {
-        clearCities($authorizationHandlerCity, false);
-    }
-})
-
-// On page loading, set the cities list in select field if it is already set in local storage
-// If local storage contains the cities, it clears the local storage after appending to the list
+// On page loading, set the cities list in select field if it is already set in session storage
 $(document).ready(() => {
-    const $authorizationHandlerCity = $("#authorization_handler_city");
+    const $citiesElement = $("#authorization_handler_city");
+    const $postalCode = $("#authorization_handler_postal_code");
+    const sessionStorageManager = new SessionStorageManager();
+    const ahApi = new AhApi(sessionStorageManager);
+    const ahFormHTML = new AhFormHTML($citiesElement);
 
-    if (getCities() !== null && getCities().length > 0) {
-        setCities($authorizationHandlerCity, getCities());
-        setTimeout(clearLocalStorage(), 200);
+    if ($postalCode.val() !== "") {
+        let cities = ahApi.citiesFor($postalCode.val());
+        if (cities.length > 0) {
+            ahFormHTML.clearCities();
+            ahFormHTML.setCities(cities);
+        }
     }
+
+    // For each input on the postal code field, it looks for the corresponding city for the given postal code
+    // While the postal code length is under 5, it clears the select field
+    // Otherwise it stores the cities found in session storage and append to select field
+    $postalCode.on("input", (e) => {
+        const $element = $(e.currentTarget);
+        const value = $element.val();
+
+        if (value.length > 4) {
+            let cities = ahApi.citiesFor(value);
+            if (cities.length > 0) {
+                ahFormHTML.clearCities();
+                ahFormHTML.setCities(cities);
+            }
+        } else {
+            ahFormHTML.clearCities(false);
+        }
+    })
 });

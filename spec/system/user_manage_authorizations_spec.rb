@@ -13,6 +13,10 @@ describe "User authorizations", type: :system do
   let(:user) { create(:user, :confirmed) }
 
   before do
+    stub_request(:get, /datanova.laposte.fr/)
+      .with(headers: { "Accept" => "application/json" })
+      .to_return(status: 200, body: { "nhits": 1, "parameters": { "dataset": "laposte_hexasmal", "q": "75018", "rows": 10, "start": 0, "facet": %w(code_postal ligne_10), "format": "json", "timezone": "UTC" }, "records": [{ "datasetid": "laposte_hexasmal", "recordid": "29faec4345bff1b24c52cc6e6bc9ddfa899eb862", "fields": { "nom_de_la_commune": "PARIS 18", "libelle_d_acheminement": "PARIS 18", "code_postal": "75018", "coordonnees_gps": [48.892570317, 2.3481765980000002], "code_commune_insee": "75118" }, "geometry": { "type": "Point", "coordinates": [2.3481765980000002, 48.892570317] }, "record_timestamp": "2022-03-20T23:35:00Z" }], "facet_groups": [{ "name": "code_postal", "facets": [{ "name": "75018", "count": 1, "state": "displayed", "path": "75018" }] }] }.to_json, headers: {})
+
     switch_to_host(organization.host)
     login_as user, scope: :user
     visit decidim.root_path
@@ -54,7 +58,7 @@ describe "User authorizations", type: :system do
       fill_in :authorization_handler_last_name, with: "Doe"
       fill_in :authorization_handler_first_name, with: "John"
       fill_in :authorization_handler_address, with: "21 Jump Street"
-      fill_in :authorization_handler_postal_code, with: "75001"
+      fill_in :authorization_handler_postal_code, with: "75018"
 
       fill_in :authorization_handler_email, with: "user@example.org"
       fill_in :authorization_handler_phone_number, with: "+33654321234"
@@ -69,8 +73,8 @@ describe "User authorizations", type: :system do
       fill_in :authorization_handler_last_name, with: "Doe"
       fill_in :authorization_handler_first_name, with: "John"
       fill_in :authorization_handler_address, with: "21 Jump Street"
-      fill_in :authorization_handler_postal_code, with: "77220"
-      select "TOURNAN-EN-BRIE", from: :authorization_handler_city
+      fill_in :authorization_handler_postal_code, with: "75018"
+      select "PARIS 18", from: :authorization_handler_city
 
       fill_in :authorization_handler_email, with: "user@example.org"
       fill_in :authorization_handler_phone_number, with: "+33654321234"
