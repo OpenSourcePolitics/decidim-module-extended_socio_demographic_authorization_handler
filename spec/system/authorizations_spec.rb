@@ -21,7 +21,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
 
         within "form.new_user" do
           fill_in :session_user_email, with: user.email
-          fill_in :session_user_password, with: "password1234"
+          fill_in :session_user_password, with: "decidim123456"
           find("*[type=submit]").click
         end
       end
@@ -43,7 +43,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
     end
 
     context "when multiple authorizations have been configured", with_authorization_workflows: %w(dummy_authorization_handler dummy_authorization_workflow) do
-      let(:authorizations) { %w(dummy_authorization_handler dummy_authorization_workflow extended_socio_demographic_authorization_handler) }
+      let(:authorizations) { %w(dummy_authorization_handler dummy_authorization_workflow) }
 
       before do
         visit decidim.root_path
@@ -51,7 +51,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
 
         within "form.new_user" do
           fill_in :session_user_email, with: user.email
-          fill_in :session_user_password, with: "password1234"
+          fill_in :session_user_password, with: "decidim123456"
           find("*[type=submit]").click
         end
       end
@@ -241,6 +241,10 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
           within ".authorizations-list" do
             expect(page).to have_link("Example authorization")
             click_link "Example authorization"
+          end
+
+          within "#renew-modal" do
+            click_link "Continue"
           end
 
           fill_in "Document number", with: "123456789X"
