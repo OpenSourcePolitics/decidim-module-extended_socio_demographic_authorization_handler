@@ -12,9 +12,17 @@ en:
             extended_socio_demographic_authorization_handler: Additional informations
   extended_socio_demographic_authorization:
     form:
+      address: Address
+      city: City
+      email: Email
       email_or_phone_field: You must provide at least one field between email or phone
         number.
       email_or_phone_legend: Contact informations
+      lastname: Lastname
+      name: Name
+      number: Number
       postal_code:
         help_message: Please fill the postal code field to be able to select your
           city
+      resident: Resident
+      rgpd: Rgpd
