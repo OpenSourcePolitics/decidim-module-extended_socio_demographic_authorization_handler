@@ -14,6 +14,7 @@ en:
     form:
       address: Address
       city: City
+      code: Postal code
       email: Email
       email_or_phone_field: You must provide at least one field between email or phone
         number.
