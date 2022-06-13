@@ -4,29 +4,29 @@
   <div class="row">
     <div class="columns medium-6">
       <div class="field">
-        <%= form.text_field :first_name, minlength: 2, pattern: "[A-Za-z]+", autocomplete: "given-name" %>
+        <%= form.text_field :first_name, minlength: 2, pattern: "[A-Za-z]+", autocomplete: "given-name", label: t(".name") %>
       </div>
     </div>
     <div class="columns medium-6">
       <div class="field">
-        <%= form.text_field :last_name, minlength: 2, pattern: "[A-Za-z]+", autocomplete: "family-name" %>
+        <%= form.text_field :last_name, minlength: 2, pattern: "[A-Za-z]+", autocomplete: "family-name", label: t(".lastname") %>
       </div>
     </div>
   </div>
 
   <div class="field">
-    <%= form.text_field :address, placeholder: "10 avenue de la mairie", autocomplete: "street-address" %>
+    <%= form.text_field :address, placeholder: "10 avenue de la mairie", autocomplete: "street-address", label: t(".address") %>
   </div>
 
   <div class="row">
     <div class="columns medium-4">
       <div class="field">
-        <%= form.text_field :postal_code, pattern: "^[0-9]+$", minlength: 5, maxlength: 5, autocomplete: "postal-code" %>
+        <%= form.text_field :postal_code, pattern: "^[0-9]+$", minlength: 5, maxlength: 5, autocomplete: "postal-code", label: t(".code") %>
       </div>
     </div>
     <div class="columns medium-8">
       <div class="field">
-        <%= form.select :city, [], {}, disabled: "disabled" %>
+        <%= form.select :city, [], {}, disabled: "disabled", label: t(".city") %>
       </div>
     </div>
 
@@ -40,12 +40,12 @@
 
     <div class="columns">
       <div class="field">
-        <%= form.text_field :email, placeholder: "example@example.org", type: "email", autocomplete: "email" %>
+        <%= form.text_field :email, placeholder: "example@example.org", type: "email", autocomplete: "email", label: t(".email") %>
       </div>
     </div>
     <div class="columns">
       <div class="field">
-        <%= form.text_field :phone_number, type: "tel", placeholder: "0601010101", autocomplete: "tel" %>
+        <%= form.text_field :phone_number, type: "tel", placeholder: "0601010101", autocomplete: "tel", label: t(".number") %>
       </div>
     </div>
 
@@ -57,12 +57,12 @@
   <div class="row">
     <div class="columns">
       <div class="field">
-        <%= form.check_box :resident %>
+        <%= form.check_box :resident, label: t(".resident") %>
       </div>
     </div>
     <div class="columns">
       <div class="field">
-        <%== form.check_box :rgpd %>
+        <%== form.check_box :rgpd, label: t(".rgpd") %>
       </div>
     </div>
   </div>
