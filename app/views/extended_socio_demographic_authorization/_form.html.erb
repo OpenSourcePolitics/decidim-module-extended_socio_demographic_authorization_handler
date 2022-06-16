@@ -4,12 +4,12 @@
   <div class="row">
     <div class="columns medium-6">
       <div class="field">
-        <%= form.text_field :first_name, minlength: 2, pattern: "[A-Za-z]+", autocomplete: "given-name", label: t(".name") %>
+        <%= form.text_field :first_name, minlength: 1, pattern: "[A-Za-z]+", autocomplete: "given-name", label: t(".name") %>
       </div>
     </div>
     <div class="columns medium-6">
       <div class="field">
-        <%= form.text_field :last_name, minlength: 2, pattern: "[A-Za-z]+", autocomplete: "family-name", label: t(".lastname") %>
+        <%= form.text_field :last_name, minlength: 1, pattern: "[A-Za-z]+", autocomplete: "family-name", label: t(".lastname") %>
       </div>
     </div>
   </div>
@@ -26,11 +26,11 @@
     </div>
     <div class="columns medium-8">
       <div class="field">
-        <%= form.select :city, [], {}, disabled: "disabled", label: t(".city") %>
+        <%= form.select :city, [], { label: t(".city") }, { disabled: "disabled" } %>
       </div>
     </div>
 
-    <div class="columns">
+    <div class="columns margin-bottom-1 postal_code_help">
       <small><em><%= t(".postal_code.help_message") %></em></small>
     </div>
   </div>
