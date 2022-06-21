@@ -5,16 +5,16 @@ fr:
       extended_socio_demographic_authorization_handler:
         explanation: Complétez les informations de votre profil
         fields:
-          address: Address
-          city: City
-          code: Postal code
-          email: Email
-          lastname: Last name
-          name: First name
-          phone_number: Phone number
-          postal_code: Postal code
-          resident: Resident
-          rgpd: Rgpd
+          address: Addresse
+          city: Ville
+          code: Code postal
+          email: Courriel
+          lastname: Nom
+          name: Prénom
+          phone_number: Numéro de téléphone
+          postal_code: Code postal
+          resident: J'atteste avoir plus de 16 ans et résider, travailler ou étudier dans le département de Loire-Atlantique.
+          rgpd: rgpd
         name: Données personnelles
     verifications:
       authorizations:
