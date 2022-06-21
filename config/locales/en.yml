@@ -4,6 +4,17 @@ en:
     authorization_handlers:
       extended_socio_demographic_authorization_handler:
         explanation: Complete your profile with additional informations
+        fields:
+          address: Address
+          city: City
+          code: Postal code
+          email: Email
+          lastname: Last name
+          name: First name
+          phone_number: Phone number
+          postal_code: Postal code
+          resident: Resident
+          rgpd: Rgpd
         name: Additional informations
     verifications:
       authorizations:

@@ -8,6 +8,7 @@ ignore_unused:
   - decidim.authorization_handlers.extended_socio_demographic_authorization_handler.name
   - decidim.authorization_handlers.extended_socio_demographic_authorization_handler.explanation
   - decidim.verifications.authorizations.first_login.actions.extended_socio_demographic_authorization_handler
+  - decidim.authorization_handlers.extended_socio_demographic_authorization_handler.fields.*
 
 ignore_missing:
   - decidim.participatory_processes.scopes.global
