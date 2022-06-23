@@ -9,8 +9,8 @@ fr:
           city: Ville
           code: Code postal
           email: Courriel
-          lastname: Nom
-          name: Prénom
+          first_name: Nom
+          last_name: Prénom
           phone_number: Numéro de téléphone
           postal_code: Code postal
           resident: J'atteste avoir plus de 16 ans et résider, travailler ou étudier dans le département de Loire-Atlantique.

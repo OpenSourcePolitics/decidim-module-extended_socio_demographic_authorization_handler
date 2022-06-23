@@ -9,8 +9,8 @@ en:
           city: City
           code: Postal code
           email: Email
-          lastname: Last name
-          name: First name
+          first_name: First name
+          last_name: Last name
           phone_number: Phone number
           postal_code: Postal code
           resident: Resident
