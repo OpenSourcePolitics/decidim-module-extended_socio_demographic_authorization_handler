@@ -6,15 +6,20 @@ en:
         explanation: Complete your profile with additional informations
         fields:
           address: Address
+          birth_date: Date of birth
+          certification: Certification CESE
           city: City
           code: Postal code
           email: Email
           first_name: First name
           last_name: Last name
+          news_cese: News
           phone_number: Phone number
           postal_code: Postal code
           resident: Resident
           rgpd: Rgpd
+          usual_firstname: Usual first name
+          usual_lastname: Usual last name
         name: Additional informations
     verifications:
       authorizations:
@@ -24,7 +29,9 @@ en:
   extended_socio_demographic_authorization:
     form:
       address: Address
+      birth_date: Date of birth
       city: City
+      certification: Certification CESE
       code: Postal code
       email: Email
       email_or_phone_field: You must provide at least one field between email or phone
@@ -32,9 +39,12 @@ en:
       email_or_phone_legend: Contact informations
       lastname: Last name
       name: First name
+      news_cese: Do you want to receive news from CESE ?
       number: Phone number
       postal_code:
         help_message: Please fill the postal code field to be able to select your
           city
       resident: Resident
       rgpd: Rgpd
+      usual_firstname: Usual first name
+      usual_lastname: Usual last name

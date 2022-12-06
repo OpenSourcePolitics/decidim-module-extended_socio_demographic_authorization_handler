@@ -143,4 +143,6 @@ $(document).ready(() => {
             ahFormHTML.clearCities(false);
         }
     })
+
+    $("label[for='authorization_handler_birth_date'] select").wrapAll('<div class="select-date-container">');
 });
