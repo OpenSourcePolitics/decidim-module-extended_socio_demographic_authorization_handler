@@ -27,9 +27,13 @@ en:
           actions:
             extended_socio_demographic_authorization_handler: Additional informations
   extended_socio_demographic_authorization:
+    errors:
+      messages:
+        over_16: You must be over 16 years old to access this service.
     form:
       address: Address
       birth_date: Date of birth
+      birth_date_help: You must be over 16 years old to access this service.
       city: City
       certification: Certification CESE
       code: Postal code

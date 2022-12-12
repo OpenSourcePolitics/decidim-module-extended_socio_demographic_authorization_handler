@@ -28,9 +28,13 @@ fr:
             extended_socio_demographic_authorization_handler: Vérifier avec Données
               personnelles
   extended_socio_demographic_authorization:
+    errors:
+      messages:
+        over_16: Vous devez avoir plus de 16 ans pour accéder à ce service.
     form:
       address: Addresse
       birth_date: Date de naissance
+      birth_date_help: Vous devez avoir plus de 16 ans pour avoir accès à ce service.
       certification: Certification CESE
       city: Ville
       code: Code postal

@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require "virtus/multiparams"
+
 # Allows to create a form for simple Socio Demographic authorization
 class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandler
+  include Virtus::Multiparams
+
   attribute :last_name, String
   attribute :usual_last_name, String
   attribute :first_name, String
@@ -23,6 +27,8 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
   validates :email, format: { with: Devise.email_regexp }, presence: true
   validates :certification, acceptance: true, presence: true
 
+  validate :over_16?
+
   def metadata
     super.merge(
       last_name: last_name,
@@ -31,9 +37,19 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
       postal_code: postal_code,
       city: city,
       email: email,
-      phone_number: phone_number,
-      resident: resident,
-      rgpd: rgpd
+      birth_date: birth_date,
+      usual_last_name: usual_last_name,
+      usual_first_name: usual_first_name,
+      certification: certification,
+      news_cese: news_cese
     )
+  end
+
+  private
+
+  def over_16?
+    return true if birth_date < 16.years.ago.to_date
+
+    errors.add :birth_date, I18n.t("extended_socio_demographic_authorization.errors.messages.over_16")
   end
 end

@@ -27,9 +27,12 @@
   </div>
 
   <div class="row">
-      <div class="columns medium-12">
-        <%= form.date_select :birth_date, { label: t(".birth_date") }, { class: "columns medium-3" } %>
-      </div>
+    <div class="columns medium-12">
+      <%= form.date_select :birth_date, {label: t(".birth_date"), start_year: Date.today.year - 120, end_year: Date.today.year }, { class: "columns medium-3" } %>
+    </div>
+    <div class="columns margin-bottom-1 postal_code_help">
+      <small><em><%= t(".birth_date_help") %></em></small>
+    </div>
   </div>
 
   <div class="field">
@@ -53,9 +56,9 @@
     </div>
   </div>
 
-    <div class="field">
-      <%= form.text_field :email, placeholder: "example@example.org", type: "email", autocomplete: "email", label: t(".email") %>
-    </div>
+  <div class="field">
+    <%= form.text_field :email, placeholder: "example@example.org", type: "email", autocomplete: "email", label: t(".email") %>
+  </div>
 
 
   <div class="row">
