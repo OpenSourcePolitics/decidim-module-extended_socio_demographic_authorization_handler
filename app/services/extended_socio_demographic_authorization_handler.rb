@@ -32,14 +32,14 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
   def metadata
     super.merge(
       last_name: last_name,
+      usual_last_name: usual_last_name,
       first_name: first_name,
+      usual_first_name: usual_first_name,
       address: address,
       postal_code: postal_code,
       city: city,
       email: email,
       birth_date: birth_date,
-      usual_last_name: usual_last_name,
-      usual_first_name: usual_first_name,
       certification: certification,
       news_cese: news_cese
     )
@@ -48,6 +48,7 @@ class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandl
   private
 
   def over_16?
+    return if birth_date.blank?
     return true if birth_date < 16.years.ago.to_date
 
     errors.add :birth_date, I18n.t("extended_socio_demographic_authorization.errors.messages.over_16")

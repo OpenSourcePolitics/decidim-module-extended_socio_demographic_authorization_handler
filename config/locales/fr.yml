@@ -14,10 +14,7 @@ fr:
           first_name: Nom
           last_name: Prénom
           news_cese: Actualités
-          phone_number: Numéro de téléphone
           postal_code: Code postal
-          resident: J'atteste avoir plus de 16 ans et résider, travailler ou étudier dans le département de Loire-Atlantique.
-          rgpd: rgpd
           usual_firstname: Prénom d'usage
           usual_lastname: Nom d'usage
         name: Données personnelles
@@ -39,17 +36,10 @@ fr:
       city: Ville
       code: Code postal
       email: Email
-      email_or_phone_field: Veuillez renseigner au moins votre e-mail ou numéro de
-        téléphone, ou les deux.
-      email_or_phone_legend: Informations de contact
       lastname: Nom
       name: Prénom
       news_cese: Souhaitez-vous recevoir les actualités du CESE ?
-      number: Numéro de téléphone
       postal_code:
         help_message: Veuillez renseigner votre code postal pour choisir la ville
-      resident: J’atteste avoir plus de 16 ans et travailler, habiter, étudier en
-        Loire–Atlantique.
-      rgpd: Mention RGPD (ou lien vers les mentions légales)
       usual_firstname: Prénom d'usage
       usual_lastname: Nom d'usage

@@ -43,27 +43,33 @@ describe "User authorizations", type: :system do
 
       within ".new_authorization_handler" do
         expect(page).to have_content("Last name")
+        expect(page).to have_content("Usual last name")
         expect(page).to have_field("First name")
+        expect(page).to have_field("Usual first name")
         expect(page).to have_field("Address")
         expect(page).to have_field("Postal code")
         expect(page).to have_content("City")
         expect(page).to have_field("Email")
-        expect(page).to have_field("Phone number")
-        expect(page).to have_field("Resident")
-        expect(page).to have_field("Rgpd")
+        expect(page).to have_content("Date of birth")
+        expect(page).to have_field("Certification")
+        expect(page).to have_content("Do you want to receive news from CESE ?")
       end
     end
 
     it "allows user to fill form" do
       fill_in :authorization_handler_last_name, with: "Doe"
+      fill_in :authorization_handler_usual_last_name, with: "Smith"
       fill_in :authorization_handler_first_name, with: "John"
+      fill_in :authorization_handler_usual_first_name, with: "Jack"
       fill_in :authorization_handler_address, with: "21 Jump Street"
       fill_in :authorization_handler_postal_code, with: "75018"
 
       fill_in :authorization_handler_email, with: "user@example.org"
-      fill_in :authorization_handler_phone_number, with: "+33654321234"
-      check :authorization_handler_resident
-      check :authorization_handler_rgpd
+      select "January", from: "authorization_handler_birth_date_2i"
+      select 1980, from: "authorization_handler_birth_date_1i"
+      select 22, from: "authorization_handler_birth_date_3i"
+      check :authorization_handler_certification
+      check :authorization_handler_news_cese
       click_button "Send"
 
       expect(page).to have_content("You've been successfully authorized")
@@ -77,12 +83,32 @@ describe "User authorizations", type: :system do
       select "PARIS 18", from: :authorization_handler_city
 
       fill_in :authorization_handler_email, with: "user@example.org"
-      fill_in :authorization_handler_phone_number, with: "+33654321234"
-      check :authorization_handler_resident
-      check :authorization_handler_rgpd
+      select "January", from: "authorization_handler_birth_date_2i"
+      select 1980, from: "authorization_handler_birth_date_1i"
+      select 22, from: "authorization_handler_birth_date_3i"
+      check :authorization_handler_certification
+      check :authorization_handler_news_cese
       click_button "Send"
 
       expect(page).to have_content("You've been successfully authorized")
+    end
+
+    it "refuses to authorize when younger than 16" do
+      fill_in :authorization_handler_last_name, with: "Doe"
+      fill_in :authorization_handler_first_name, with: "John"
+      fill_in :authorization_handler_address, with: "21 Jump Street"
+      fill_in :authorization_handler_postal_code, with: "75018"
+      select "PARIS 18", from: :authorization_handler_city
+
+      fill_in :authorization_handler_email, with: "user@example.org"
+      select "January", from: "authorization_handler_birth_date_2i"
+      select 2010, from: "authorization_handler_birth_date_1i"
+      select 22, from: "authorization_handler_birth_date_3i"
+      check :authorization_handler_certification
+      check :authorization_handler_news_cese
+      click_button "Send"
+
+      expect(page).to have_content("You must be over 16 years old to access this service").twice
     end
   end
 end
