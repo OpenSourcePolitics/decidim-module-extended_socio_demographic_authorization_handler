@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-require "virtus/multiparams"
-
 # Allows to create a form for simple Socio Demographic authorization
 class ExtendedSocioDemographicAuthorizationHandler < Decidim::AuthorizationHandler
-  include Virtus::Multiparams
-
   attribute :last_name, String
   attribute :usual_last_name, String
   attribute :first_name, String
