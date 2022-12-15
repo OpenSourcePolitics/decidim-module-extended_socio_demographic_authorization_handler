@@ -38,8 +38,8 @@ jobs:
           fetch-depth: 1
       - uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true
           ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
