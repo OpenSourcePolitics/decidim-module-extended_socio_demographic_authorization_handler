@@ -6,15 +6,17 @@ fr:
         explanation: Complétez les informations de votre profil
         fields:
           address: Addresse
+          birth_date: Date de naissance
+          certification: Certification CESE
           city: Ville
           code: Code postal
           email: Courriel
           first_name: Nom
           last_name: Prénom
-          phone_number: Numéro de téléphone
+          news_cese: Actualités
           postal_code: Code postal
-          resident: J'atteste avoir plus de 16 ans et résider, travailler ou étudier dans le département de Loire-Atlantique.
-          rgpd: rgpd
+          usual_firstname: Prénom d'usage
+          usual_lastname: Nom d'usage
         name: Données personnelles
     verifications:
       authorizations:
@@ -23,19 +25,21 @@ fr:
             extended_socio_demographic_authorization_handler: Vérifier avec Données
               personnelles
   extended_socio_demographic_authorization:
+    errors:
+      messages:
+        over_16: Vous devez avoir plus de 16 ans pour accéder à ce service.
     form:
       address: Addresse
+      birth_date: Date de naissance
+      birth_date_help: Vous devez avoir plus de 16 ans pour avoir accès à ce service.
+      certification: Certification CESE
       city: Ville
       code: Code postal
       email: Email
-      email_or_phone_field: Veuillez renseigner au moins votre e-mail ou numéro de
-        téléphone, ou les deux.
-      email_or_phone_legend: Informations de contact
       lastname: Nom
       name: Prénom
-      number: Numéro de téléphone
+      news_cese: Souhaitez-vous recevoir les actualités du CESE ?
       postal_code:
         help_message: Veuillez renseigner votre code postal pour choisir la ville
-      resident: J’atteste avoir plus de 16 ans et travailler, habiter, étudier en
-        Loire–Atlantique.
-      rgpd: Mention RGPD (ou lien vers les mentions légales)
+      usual_firstname: Prénom d'usage
+      usual_lastname: Nom d'usage

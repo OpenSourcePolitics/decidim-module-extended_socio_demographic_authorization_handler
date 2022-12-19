@@ -14,4 +14,16 @@
     border-radius: 264px;
     color: #7f7f7f;
   }
+
+  .select-date-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 20px;
+  }
+
+  .select-date-container .columns {
+    padding-right: 1.4rem;
+  }
 }

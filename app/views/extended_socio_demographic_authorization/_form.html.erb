@@ -9,13 +9,34 @@
     </div>
     <div class="columns medium-6">
       <div class="field">
-        <%= form.text_field :last_name, minlength: 1, pattern: "[A-Za-z]+", autocomplete: "family-name", label: t(".lastname") %>
+        <%= form.text_field :last_name, minlength: 1, pattern: "[A-Za-z]+", autocomplete: "given-name", label: t(".lastname") %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns medium-6">
+      <div class="field">
+        <%= form.text_field :usual_first_name, pattern: "[A-Za-z]+", autocomplete: "family-name", label: t(".usual_firstname") %>
+      </div>
+    </div>
+    <div class="columns medium-6">
+      <div class="field">
+        <%= form.text_field :usual_last_name, pattern: "[A-Za-z]+", autocomplete: "family-name", label: t(".usual_lastname") %>
       </div>
     </div>
   </div>
 
+  <div class="row">
+    <div class="columns medium-12">
+      <%= form.date_select :birth_date, {label: t(".birth_date"), start_year: Date.today.year - 120, end_year: Date.today.year }, { class: "columns medium-3" } %>
+    </div>
+    <div class="columns margin-bottom-1 postal_code_help">
+      <small><em><%= t(".birth_date_help") %></em></small>
+    </div>
+  </div>
+
   <div class="field">
-    <%= form.text_field :address, placeholder: "10 avenue de la mairie", autocomplete: "street-address", label: t(".address") %>
+    <%= form.text_field :address, autocomplete: "street-address", label: t(".address") %>
   </div>
 
   <div class="row">
@@ -35,34 +56,20 @@
     </div>
   </div>
 
-  <fieldset >
-    <legend><%= t(".email_or_phone_legend") %></legend>
+  <div class="field">
+    <%= form.text_field :email, type: "email", autocomplete: "email", label: t(".email") %>
+  </div>
 
-    <div class="columns">
-      <div class="field">
-        <%= form.text_field :email, placeholder: "example@example.org", type: "email", autocomplete: "email", label: t(".email") %>
-      </div>
-    </div>
-    <div class="columns">
-      <div class="field">
-        <%= form.text_field :phone_number, type: "tel", placeholder: "0601010101", autocomplete: "tel", label: t(".number") %>
-      </div>
-    </div>
-
-    <div class="columns margin-0">
-      <small><em><%= t(".email_or_phone_field") %></em></small>
-    </div>
-  </fieldset>
 
   <div class="row">
     <div class="columns">
       <div class="field">
-        <%= form.check_box :resident, label: t(".resident") %>
+        <%= form.check_box :certification, label: t(".certification") %>
       </div>
     </div>
     <div class="columns">
       <div class="field">
-        <%== form.check_box :rgpd, label: t(".rgpd") %>
+        <%== form.check_box :news_cese, label: t(".news_cese") %>
       </div>
     </div>
   </div>

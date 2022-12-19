@@ -254,7 +254,7 @@ describe "Authentication", type: :system do
   end
 
   context "when confirming the account" do
-    let!(:user) { create(:user, email_on_notification: true, organization: organization) }
+    let!(:user) { create(:user, organization: organization) }
 
     before do
       perform_enqueued_jobs { user.confirm }
@@ -369,8 +369,8 @@ describe "Authentication", type: :system do
         visit last_email_link
 
         within ".new_user" do
-          fill_in :password_user_password, with: "example"
-          fill_in :password_user_password_confirmation, with: "example"
+          fill_in :password_user_password, with: "whatislove"
+          fill_in :password_user_password_confirmation, with: "whatislove"
           find("*[type=submit]").click
         end
 
@@ -378,6 +378,19 @@ describe "Authentication", type: :system do
         expect(page).to have_content("must be different from your nickname and your email")
         expect(page).to have_content("must not be too common")
         expect(page).to have_current_path "/users/password"
+      end
+
+      it "enforces the minimum length for the password in the front-end" do
+        visit last_email_link
+
+        within ".new_user" do
+          fill_in :password_user_password, with: "example"
+          fill_in :password_user_password_confirmation, with: "example"
+          find("*[type=submit]").click
+        end
+
+        expect(page).to have_content("The password is too short.")
+        expect(page).to have_content("Password confirmation must match the password.")
       end
     end
 
