@@ -112,8 +112,16 @@ class AhFormHTML {
 
 // On page loading, set the cities list in select field if it is already set in session storage
 $(document).ready(() => {
-    const $citiesElement = $("#authorization_handler_city");
-    const $postalCode = $("#authorization_handler_postal_code");
+    if ($("[id*='new_impersonate_user']").length > 0) {
+        var citiesElementIdentifier = "[id*='authorization_city']"
+        var postalCodeIdentifier = "[id*='authorization_postal_code']"
+    } else {
+        var citiesElementIdentifier = "#authorization_handler_city"
+        var postalCodeIdentifier = "#authorization_handler_postal_code"
+    }
+
+    const $citiesElement = $(citiesElementIdentifier);
+    const $postalCode = $(postalCodeIdentifier);
     const sessionStorageManager = new SessionStorageManager();
     const ahApi = new AhApi(sessionStorageManager);
     const ahFormHTML = new AhFormHTML($citiesElement);
