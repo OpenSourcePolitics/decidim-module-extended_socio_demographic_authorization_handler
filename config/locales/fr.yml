@@ -15,8 +15,8 @@ fr:
           last_name: Prénom
           news_cese: Actualités
           postal_code: Code postal
-          usual_firstname: Prénom d'usage
-          usual_lastname: Nom d'usage
+          usual_first_name: Prénom d'usage
+          usual_last_name: Nom d'usage
         name: Données personnelles
     verifications:
       authorizations:
