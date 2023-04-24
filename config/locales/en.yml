@@ -15,8 +15,8 @@ en:
           last_name: Last name
           news_cese: News
           postal_code: Postal code
-          usual_firstname: Usual first name
-          usual_lastname: Usual last name
+          usual_first_name: Usual first name
+          usual_last_name: Usual last name
         name: Additional informations
     verifications:
       authorizations:
