@@ -12,6 +12,7 @@ class OpendatasoftService
     return [] unless @zipcode.match?(/^(([0-8][0-9])|(9[0-5])|(2[AB]))[0-9]{3}$/)
 
     Rails.cache.fetch(cache_key, expires_in: 15.days) do
+      Rails.logger.info("ExtendedSocioDemographicAuthorizationHandler - Faraday - Looking for zipcode : #{@zipcode}")
       make_api_call!
     end
   end

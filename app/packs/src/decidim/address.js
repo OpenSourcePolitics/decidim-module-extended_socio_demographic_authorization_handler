@@ -37,6 +37,7 @@ class AhApi {
            results = this.sessionStorageManager.get(postalCode);
         } else {
            results = this.fetchFromApi(postalCode);
+           results = results.responseJSON.records
            this.sessionStorageManager.store(postalCode, results);
         }
 
@@ -51,12 +52,14 @@ class AhApi {
                 method: "POST",
                 data: { zipcode: postalCode },
                 headers: { "accept": "application/json" }
-            }).done((data) => { return data.records; });
+            }).done((data) => {
+                return data;
+            });
     }
 
     // returns the API Url for the given postal code
     apiURL() {
-        return `/extended_socio_demographic_handler/postal_code`
+        return "/extended_socio_demographic_authorization_handler/postal_code"
     }
 }
 
