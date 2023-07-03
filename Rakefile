@@ -53,11 +53,11 @@ task :test_app do
     "--recreate_db",
     "--skip_gemfile",
     "--skip_spring",
+    "--skip_webpack_install",
     "--demo",
     "--force_ssl",
     "false",
     "--locales",
-    "--skip_webpack_install",
     "en,ca,es"
   )
   fix_babel_configs("spec/decidim_dummy_app")
@@ -75,9 +75,9 @@ task :development_app do
       "--recreate_db",
       "--seed_db",
       "--demo",
+      "--skip_webpack_install",
       "--profiling",
       "--locales",
-      "--skip_webpack_install",
       "en,ca,es",
       "--dev_ssl"
     )
