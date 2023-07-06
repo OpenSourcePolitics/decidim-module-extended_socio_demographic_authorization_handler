@@ -36,11 +36,9 @@ class AhApi {
         if (this.sessionStorageManager.exists(postalCode)) {
            results = this.sessionStorageManager.get(postalCode);
         } else {
-           let records = this.fetchFromApi(postalCode);
-           records = records.responseJSON.records.map(item => item.fields);
-           results = Array.from(new Set(records.map(record => record.nom_de_la_commune)));
-
-            this.sessionStorageManager.store(postalCode, results);
+           results = this.fetchFromApi(postalCode);
+           results = results.responseJSON.records
+           this.sessionStorageManager.store(postalCode, results);
         }
 
        return results;
@@ -48,21 +46,20 @@ class AhApi {
 
     // Fetch cities for a given postal code against defined Api
     fetchFromApi(postalCode) {
-        return $.ajax({async: false, crossDomain: true, url: this.builtApiUrl(postalCode), method: "GET", headers: {
-            "accept": "application/json",
-            }}).done((data) => {
-                return data.records;
-        });
-    }
-
-    // search for the postal code in session storage
-    fetchFromSessionStorage(postalCode) {
-        return JSON.parse(sessionStorage.getItem(postalCode));
+        return $.ajax({
+                async: false,
+                url: this.apiURL(),
+                method: "POST",
+                data: { zipcode: postalCode },
+                headers: { "accept": "application/json" }
+            }).done((data) => {
+                return data;
+            });
     }
 
     // returns the API Url for the given postal code
-    builtApiUrl(postalCode) {
-        return `https://datanova.laposte.fr/api/records/1.0/search/?dataset=laposte_hexasmal&q=${postalCode}&facet=code_postal&facet=ligne_10`
+    apiURL() {
+        return "/extended_socio_demographic_authorization_handler/postal_code"
     }
 }
 
