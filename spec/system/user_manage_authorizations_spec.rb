@@ -63,6 +63,7 @@ describe "User authorizations", type: :system do
       fill_in :authorization_handler_usual_first_name, with: "Jack"
       fill_in :authorization_handler_address, with: "21 Jump Street"
       fill_in :authorization_handler_postal_code, with: "75018"
+      fill_in :authorization_handler_city, with: "PARIS 18"
 
       fill_in :authorization_handler_email, with: "user@example.org"
       select "January", from: "authorization_handler_birth_date_2i"
@@ -80,7 +81,7 @@ describe "User authorizations", type: :system do
       fill_in :authorization_handler_first_name, with: "John"
       fill_in :authorization_handler_address, with: "21 Jump Street"
       fill_in :authorization_handler_postal_code, with: "75018"
-      select "PARIS 18", from: :authorization_handler_city
+      fill_in :authorization_handler_city, with: "PARIS 18"
 
       fill_in :authorization_handler_email, with: "user@example.org"
       select "January", from: "authorization_handler_birth_date_2i"
@@ -98,7 +99,7 @@ describe "User authorizations", type: :system do
       fill_in :authorization_handler_first_name, with: "John"
       fill_in :authorization_handler_address, with: "21 Jump Street"
       fill_in :authorization_handler_postal_code, with: "75018"
-      select "PARIS 18", from: :authorization_handler_city
+      fill_in :authorization_handler_city, with: "PARIS 18"
 
       fill_in :authorization_handler_email, with: "user@example.org"
       select "January", from: "authorization_handler_birth_date_2i"
