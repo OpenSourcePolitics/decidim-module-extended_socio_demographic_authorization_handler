@@ -1,0 +1,51 @@
+# frozen_string_literal: true
+
+module Decidim
+  module ExtendedSocioDemographicAuthorizationHandler
+    class AutocompleteService
+      def initialize(postal_code)
+        @postal_code = postal_code
+      end
+
+      def self.for(postal_code)
+        new(postal_code).call
+      end
+
+      def call
+        JSON.dump(parsed_response(request))
+      end
+
+      private
+
+      def request
+        https = Net::HTTP.new(url.host, url.port)
+        https.use_ssl = true
+        request = Net::HTTP::Get.new(url)
+        response = https.request(request)
+        response.read_body
+      rescue StandardError => e
+        Rails.logger.warn("Error while fetching municipality names for postal code #{@postal_code} with error #{e}")
+
+        "{}"
+      end
+
+      def parsed_response(body)
+        return if body == "Not Found"
+        return unless JSON.parse(body).is_a?(Array)
+
+        features = JSON.parse(body)
+        features.map do |feature|
+          { feature.fetch("codePostal", nil) => feature.fetch("nomCommune", nil) }
+        end.compact
+      end
+
+      def cache_key
+        "postal_code_autocomplete/#{@postal_code}"
+      end
+
+      def url
+        @url ||= URI("https://apicarto.ign.fr/api/codes-postaux/communes/#{@postal_code}")
+      end
+    end
+  end
+end
