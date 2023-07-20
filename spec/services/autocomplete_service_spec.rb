@@ -8,6 +8,7 @@ module Decidim
       subject do
         described_class.for(postal_code)
       end
+
       let!(:postal_code) { 75_018 }
 
       context "when the code postal is valid" do
