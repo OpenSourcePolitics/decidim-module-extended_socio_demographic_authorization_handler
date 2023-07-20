@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "User authorizations", type: :system do
+describe "Authorizations" do
   include Decidim::TranslatableAttributes
 
   let!(:organization) do

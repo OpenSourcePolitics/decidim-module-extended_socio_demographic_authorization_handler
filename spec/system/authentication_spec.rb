@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "Authentication", type: :system do
+describe "Authentication" do
   let(:organization) { create(:organization, available_authorizations: ["extended_socio_demographic_authorization_handler"]) }
   let(:last_user) { Decidim::User.last }
 

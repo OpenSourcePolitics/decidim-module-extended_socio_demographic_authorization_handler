@@ -12,7 +12,7 @@ module Decidim
 
       context "when the code postal is valid" do
         before do
-          stub_request(:get, "https://apicarto.ign.fr/api/codes-postaux/communes/75018")
+          stub_request(:get, "https://apicarto.ign.fr/api/codes-postaux/communes/#{postal_code}")
             .with(
               headers: {
                 "Accept" => "*/*",
@@ -21,7 +21,7 @@ module Decidim
                 "User-Agent" => "Ruby"
               }
             )
-            .to_return(status: 200, body: [{ nomCommune: "PARIS 18", libelle_d_acheminement: "PARIS 18", codePostal: "75018", code_commune_insee: "75118" }].to_json, headers: {})
+            .to_return(status: 200, body: [{ nomCommune: "PARIS 18", libelle_d_acheminement: "PARIS 18", codePostal: postal_code.to_s, code_commune_insee: "75118" }].to_json, headers: {})
         end
 
         it "returns the good city" do
@@ -33,7 +33,7 @@ module Decidim
         let!(:postal_code) { 75_035 }
 
         before do
-          stub_request(:get, "https://apicarto.ign.fr/api/codes-postaux/communes/75035")
+          stub_request(:get, "https://apicarto.ign.fr/api/codes-postaux/communes/#{postal_code}")
             .with(
               headers: {
                 "Accept" => "*/*",
@@ -54,7 +54,7 @@ module Decidim
         let!(:postal_code) { "foobar" }
 
         before do
-          stub_request(:get, "https://apicarto.ign.fr/api/codes-postaux/communes/foobar")
+          stub_request(:get, "https://apicarto.ign.fr/api/codes-postaux/communes/#{postal_code}")
             .with(
               headers: {
                 "Accept" => "*/*",
@@ -63,7 +63,7 @@ module Decidim
                 "User-Agent" => "Ruby"
               }
             )
-            .to_return(status: 400, body: { code: 400, response: [{ nomCommune: "PARIS 18", libelle_d_acheminement: "PARIS 18", codePostal: "75018", code_commune_insee: "75118" }] }.to_json, headers: {})
+            .to_return(status: 400, body: { code: 400, response: [{ nomCommune: "", libelle_d_acheminement: "", codePostal: "", code_commune_insee: "" }] }.to_json, headers: {})
         end
 
         it "returns the good city" do
