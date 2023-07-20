@@ -13,15 +13,16 @@ describe "User authorizations", type: :system do
   let(:user) { create(:user, :confirmed) }
 
   before do
-    stub_request(:get, "https://apicarto.ign.fr/api/codes-postaux/communes/75018").
-      with(
+    stub_request(:get, "https://apicarto.ign.fr/api/codes-postaux/communes/75018")
+      .with(
         headers: {
-          'Accept'=>'*/*',
-          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'Host'=>'apicarto.ign.fr',
-          'User-Agent'=>'Ruby'
-        }).
-      to_return(status: 200, body: [{ "nomCommune": "PARIS 18", "libelle_d_acheminement": "PARIS 18", "codePostal": "75018", "code_commune_insee": "75118" }].to_json, headers: {})
+          "Accept" => "*/*",
+          "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+          "Host" => "apicarto.ign.fr",
+          "User-Agent" => "Ruby"
+        }
+      )
+      .to_return(status: 200, body: [{ nomCommune: "PARIS 18", libelle_d_acheminement: "PARIS 18", codePostal: "75018", code_commune_insee: "75118" }].to_json, headers: {})
 
     switch_to_host(organization.host)
     login_as user, scope: :user

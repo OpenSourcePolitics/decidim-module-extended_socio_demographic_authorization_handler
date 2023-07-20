@@ -8,7 +8,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
   end
 
   context "when a new user" do
-    let(:organization) { create :organization, available_authorizations: authorizations }
+    let(:organization) { create(:organization, available_authorizations: authorizations) }
 
     let(:user) { create(:user, :confirmed, organization: organization) }
 
@@ -63,7 +63,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
   end
 
   context "when existing user from her account" do
-    let(:organization) { create :organization, available_authorizations: authorizations }
+    let(:organization) { create(:organization, available_authorizations: authorizations) }
     let(:user) { create(:user, :confirmed, organization: organization) }
 
     before do
@@ -95,7 +95,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
 
         within ".authorizations-list" do
           expect(page).to have_content("Example authorization")
-          expect(page).to have_no_link("Example authorization")
+          expect(page).not_to have_link("Example authorization")
         end
       end
 
@@ -149,8 +149,8 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
             click_link "Authorizations"
 
             within ".authorizations-list" do
-              expect(page).to have_no_link("Example authorization")
-              expect(page).to have_no_css(".authorization-renewable")
+              expect(page).not_to have_link("Example authorization")
+              expect(page).not_to have_css(".authorization-renewable")
             end
           end
         end
@@ -220,7 +220,7 @@ describe "Authorizations", type: :system, with_authorization_workflows: ["dummy_
           click_link "Authorizations"
 
           within ".authorizations-list" do
-            expect(page).to have_no_link("Example authorization")
+            expect(page).not_to have_link("Example authorization")
             expect(page).to have_content(I18n.l(authorization.granted_at, format: :long))
           end
         end

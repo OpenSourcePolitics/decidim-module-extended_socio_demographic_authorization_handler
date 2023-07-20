@@ -15,7 +15,6 @@ module Decidim
         Rails.cache.write(cache_key, response, expires_in: 1.month)
 
         render json: response
-
       end
 
       def cache_key
@@ -24,4 +23,3 @@ module Decidim
     end
   end
 end
-
