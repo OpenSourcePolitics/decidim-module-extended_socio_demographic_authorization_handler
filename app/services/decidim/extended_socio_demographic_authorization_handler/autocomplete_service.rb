@@ -12,10 +12,24 @@ module Decidim
       end
 
       def call
-        JSON.dump(parsed_response(request))
+        return [] if @postal_code.blank?
+
+        return Rails.cache.read(cache_key) if Rails.cache.exist?(cache_key)
+
+        response = JSON.dump(parsed_response(request))
+
+        return [] if response == "null"
+
+        Rails.cache.write(cache_key, response, expires_in: 1.month)
+
+        response
       end
 
       private
+
+      def cache_key
+        "postal_code_autocomplete/#{@postal_code}"
+      end
 
       def request
         https = Net::HTTP.new(url.host, url.port)
