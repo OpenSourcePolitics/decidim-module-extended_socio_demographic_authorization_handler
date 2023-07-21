@@ -18,8 +18,7 @@ describe "Authorizations" do
         headers: {
           "Accept" => "*/*",
           "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-          "Host" => "apicarto.ign.fr",
-          "User-Agent" => "Ruby"
+          "User-Agent" => "Faraday v2.6.0"
         }
       )
       .to_return(status: 200, body: [{ nomCommune: "PARIS 18", libelle_d_acheminement: "PARIS 18", codePostal: "75018", code_commune_insee: "75118" }].to_json, headers: {})

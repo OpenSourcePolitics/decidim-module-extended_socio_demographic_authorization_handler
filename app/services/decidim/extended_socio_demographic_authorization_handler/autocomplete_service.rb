@@ -27,16 +27,9 @@ module Decidim
 
       private
 
-      def cache_key
-        "postal_code_autocomplete/#{@postal_code}"
-      end
-
       def request
-        https = Net::HTTP.new(url.host, url.port)
-        https.use_ssl = true
-        request = Net::HTTP::Get.new(url)
-        response = https.request(request)
-        response.read_body
+        response = Faraday.get("https://apicarto.ign.fr/api/codes-postaux/communes/#{@postal_code}")
+        response.body
       rescue StandardError => e
         Rails.logger.warn("Error while fetching municipality names for postal code #{@postal_code} with error #{e}")
 

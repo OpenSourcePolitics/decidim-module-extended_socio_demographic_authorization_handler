@@ -25,8 +25,7 @@ module Decidim
                 headers: {
                   "Accept" => "*/*",
                   "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                  "Host" => "apicarto.ign.fr",
-                  "User-Agent" => "Ruby"
+                  "User-Agent" => "Faraday v2.6.0"
                 }
               )
               .to_return(status: 200, body: [{ nomCommune: "PARIS 18", libelle_d_acheminement: "PARIS 18", codePostal: postal_code.to_s, code_commune_insee: "75118" }].to_json, headers: {})
@@ -60,8 +59,7 @@ module Decidim
               headers: {
                 "Accept" => "*/*",
                 "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                "Host" => "apicarto.ign.fr",
-                "User-Agent" => "Ruby"
+                "User-Agent" => "Faraday v2.6.0"
               }
             )
             .to_return(status: 200, body: "Not Found", headers: {})
@@ -82,8 +80,7 @@ module Decidim
               headers: {
                 "Accept" => "*/*",
                 "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
-                "Host" => "apicarto.ign.fr",
-                "User-Agent" => "Ruby"
+                "User-Agent" => "Faraday v2.6.0"
               }
             )
             .to_return(status: 400, body: { code: 400, response: [{ nomCommune: "", libelle_d_acheminement: "", codePostal: "", code_commune_insee: "" }] }.to_json, headers: {})
