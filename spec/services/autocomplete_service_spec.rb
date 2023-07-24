@@ -28,24 +28,24 @@ module Decidim
                   "User-Agent" => "Faraday v2.6.0"
                 }
               )
-              .to_return(status: 200, body: [{ nomCommune: "PARIS 18", libelle_d_acheminement: "PARIS 18", codePostal: postal_code.to_s, code_commune_insee: "75118" }].to_json, headers: {})
+              .to_return(status: 200, body: [{ nomCommune: "PARIS 18", libelle_d_acheminement: "PARIS 18", codePostal: postal_code, code_commune_insee: "75118" }].to_json, headers: {})
           end
 
           it "returns the good city and saves it in the cache" do
-            expect(subject).to eq(JSON.dump([{ 75_018 => "PARIS 18" }]))
-            expect(Rails.cache.read("postal_code_autocomplete/#{postal_code}")).to eq(JSON.dump([{ postal_code => "PARIS 18" }]))
+            expect(subject).to eq([{ postal_code => "PARIS 18" }])
+            expect(Rails.cache.read("postal_code_autocomplete/#{postal_code}")).to eq([{ postal_code => "PARIS 18" }])
           end
         end
 
         context "and it's not the first time it's asked" do
           before do
-            Rails.cache.write("postal_code_autocomplete/#{postal_code}", JSON.dump([{ postal_code => "PARIS 18" }]))
+            Rails.cache.write("postal_code_autocomplete/#{postal_code}", [{ postal_code => "PARIS 18" }])
           end
 
           it "render the good code without asking for the service" do
             expect(Rails.cache).not_to receive(:write)
-            expect(subject).to eq(JSON.dump([{ postal_code => "PARIS 18" }]))
-            expect(Rails.cache.read("postal_code_autocomplete/#{postal_code}")).to eq(JSON.dump([{ postal_code => "PARIS 18" }]))
+            expect(subject).to eq([{ postal_code => "PARIS 18" }])
+            expect(Rails.cache.read("postal_code_autocomplete/#{postal_code}")).to eq([{ postal_code => "PARIS 18" }])
           end
         end
       end
@@ -66,7 +66,7 @@ module Decidim
         end
 
         it "returns nothing and doesn't saves it in the cache" do
-          expect(subject).to eq([])
+          expect(subject).to be_nil
           expect(Rails.cache).not_to exist("postal_code_autocomplete/#{postal_code}")
         end
       end
@@ -87,7 +87,7 @@ module Decidim
         end
 
         it "returns nothing and doesn't saves it in the cache" do
-          expect(subject).to eq([])
+          expect(subject).to be_nil
           expect(Rails.cache).not_to exist("postal_code_autocomplete/#{postal_code}")
         end
       end

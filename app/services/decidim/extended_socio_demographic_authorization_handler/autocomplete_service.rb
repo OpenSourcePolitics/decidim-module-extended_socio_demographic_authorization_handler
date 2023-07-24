@@ -12,13 +12,14 @@ module Decidim
       end
 
       def call
-        return [] if @postal_code.blank?
+        return if @postal_code.blank?
+        return unless @postal_code.to_s.match?(/[0-9]{5}/)
 
         return Rails.cache.read(cache_key) if Rails.cache.exist?(cache_key)
 
-        response = JSON.dump(parsed_response(request))
+        response = parsed_response(request)
 
-        return [] if response == "null"
+        return if response.nil?
 
         Rails.cache.write(cache_key, response, expires_in: 1.month)
 
