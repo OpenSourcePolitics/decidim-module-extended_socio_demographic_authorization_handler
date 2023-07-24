@@ -1,26 +1,5 @@
-// Manages session storage
-class SessionStorageManager {
-    constructor() {
-    }
-
-    store(key, value) {
-        sessionStorage.setItem(key, JSON.stringify(value));
-    }
-
-    get(key) {
-        return JSON.parse(sessionStorage.getItem(key));
-    }
-
-    exists(postalCode) {
-        return (postalCode in sessionStorage);
-    }
-}
-
-// Find cities according to given postal code
-// Priority to existing session storage key, if not found execute an API Call
 class AhApi {
-    constructor(sessionStorageManager) {
-        this.sessionStorageManager = sessionStorageManager;
+    constructor() {
         this.records = [];
     }
 
@@ -31,19 +10,15 @@ class AhApi {
 
     // returns cities for a given postal code
     fetchCities(postalCode) {
-        let results;
+        let results =[];
 
-        if (this.sessionStorageManager.exists(postalCode)) {
-           results = this.sessionStorageManager.get(postalCode);
-        } else {
-           let records = this.fetchFromApi(postalCode);
-           records = records.responseJSON.records.map(item => item.fields);
-           results = Array.from(new Set(records.map(record => record.nom_de_la_commune)));
-
-            this.sessionStorageManager.store(postalCode, results);
+        let response = this.fetchFromApi(postalCode).responseJSON;
+        for (let i = 0; i < response.length; i++) {
+            for (let key in response[i]) {
+                results.push(response[i][key]);
+            }
         }
-
-       return results;
+        return results;
     }
 
     // Fetch cities for a given postal code against defined Api
@@ -55,14 +30,9 @@ class AhApi {
         });
     }
 
-    // search for the postal code in session storage
-    fetchFromSessionStorage(postalCode) {
-        return JSON.parse(sessionStorage.getItem(postalCode));
-    }
-
     // returns the API Url for the given postal code
     builtApiUrl(postalCode) {
-        return `https://datanova.laposte.fr/api/records/1.0/search/?dataset=laposte_hexasmal&q=${postalCode}&facet=code_postal&facet=ligne_10`
+        return `/postal-code-autocomplete/${postalCode}`
     }
 }
 
@@ -122,8 +92,7 @@ $(document).ready(() => {
 
     const $citiesElement = $(citiesElementIdentifier);
     const $postalCode = $(postalCodeIdentifier);
-    const sessionStorageManager = new SessionStorageManager();
-    const ahApi = new AhApi(sessionStorageManager);
+    const ahApi = new AhApi();
     const ahFormHTML = new AhFormHTML($citiesElement);
 
     if ($postalCode.val() !== "") {
@@ -144,11 +113,11 @@ $(document).ready(() => {
         if (value.length > 4) {
             let cities = ahApi.citiesFor(value);
             if (cities.length > 0) {
-                ahFormHTML.clearCities();
+                ahFormHTML.clearCities(false);
                 ahFormHTML.setCities(cities);
+            } else {
+                ahFormHTML.clearCities(true);
             }
-        } else {
-            ahFormHTML.clearCities(false);
         }
     })
 });
