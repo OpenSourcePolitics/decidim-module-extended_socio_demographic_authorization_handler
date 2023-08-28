@@ -109,6 +109,11 @@ class AhFormHTML {
 
 // On page loading, set the cities list in select field if it is already set in session storage
 $(document).ready(() => {
+    // /!\ WARNING
+    // Disable autocomplete based on zipcode because external API changed
+    // TODO: Refactor API
+    $("label[for='authorization_handler_birth_date'] select").wrapAll('<div class="select-date-container">');
+    return;
     const $citiesElement = $("#authorization_handler_city");
     const $postalCode = $("#authorization_handler_postal_code");
     const sessionStorageManager = new SessionStorageManager();
@@ -140,6 +145,4 @@ $(document).ready(() => {
             ahFormHTML.clearCities(false);
         }
     })
-
-    $("label[for='authorization_handler_birth_date'] select").wrapAll('<div class="select-date-container">');
 });
