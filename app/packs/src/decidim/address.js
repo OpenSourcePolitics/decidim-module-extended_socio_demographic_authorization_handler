@@ -1,26 +1,5 @@
-// Manages session storage
-class SessionStorageManager {
-    constructor() {
-    }
-
-    store(key, value) {
-        sessionStorage.setItem(key, JSON.stringify(value));
-    }
-
-    get(key) {
-        return JSON.parse(sessionStorage.getItem(key));
-    }
-
-    exists(postalCode) {
-        return (postalCode in sessionStorage);
-    }
-}
-
-// Find cities according to given postal code
-// Priority to existing session storage key, if not found execute an API Call
 class AhApi {
-    constructor(sessionStorageManager) {
-        this.sessionStorageManager = sessionStorageManager;
+    constructor() {
         this.records = [];
     }
 
@@ -31,35 +10,29 @@ class AhApi {
 
     // returns cities for a given postal code
     fetchCities(postalCode) {
-        let results;
+        let results =[];
 
-        if (this.sessionStorageManager.exists(postalCode)) {
-           results = this.sessionStorageManager.get(postalCode);
-        } else {
-           results = this.fetchFromApi(postalCode);
-           results = results.responseJSON.records
-           this.sessionStorageManager.store(postalCode, results);
+        let response = this.fetchFromApi(postalCode).responseJSON;
+        for (let i = 0; i < response.length; i++) {
+            for (let key in response[i]) {
+                results.push(response[i][key]);
+            }
         }
-
-       return results;
+        return results;
     }
 
     // Fetch cities for a given postal code against defined Api
     fetchFromApi(postalCode) {
-        return $.ajax({
-                async: false,
-                url: this.apiURL(),
-                method: "POST",
-                data: { zipcode: postalCode },
-                headers: { "accept": "application/json" }
-            }).done((data) => {
-                return data;
-            });
+        return $.ajax({async: false, crossDomain: true, url: this.builtApiUrl(postalCode), method: "GET", headers: {
+            "accept": "application/json",
+            }}).done((data) => {
+                return data.records;
+        });
     }
 
     // returns the API Url for the given postal code
-    apiURL() {
-        return "/extended_socio_demographic_authorization_handler/postal_code"
+    builtApiUrl(postalCode) {
+        return `/postal-code-autocomplete/${postalCode}`
     }
 }
 
@@ -109,15 +82,21 @@ class AhFormHTML {
 
 // On page loading, set the cities list in select field if it is already set in session storage
 $(document).ready(() => {
+    if ($("[id*='new_impersonate_user']").length > 0) {
+        var citiesElementIdentifier = "[id*='authorization_city']"
+        var postalCodeIdentifier = "[id*='authorization_postal_code']"
+    } else {
+        var citiesElementIdentifier = "#authorization_handler_city"
+        var postalCodeIdentifier = "#authorization_handler_postal_code"
+    }
     // /!\ WARNING
     // Disable autocomplete based on zipcode because external API changed
     // TODO: Refactor API
     $("label[for='authorization_handler_birth_date'] select").wrapAll('<div class="select-date-container">');
     return;
-    const $citiesElement = $("#authorization_handler_city");
-    const $postalCode = $("#authorization_handler_postal_code");
-    const sessionStorageManager = new SessionStorageManager();
-    const ahApi = new AhApi(sessionStorageManager);
+    const $citiesElement = $(citiesElementIdentifier);
+    const $postalCode = $(postalCodeIdentifier);
+    const ahApi = new AhApi();
     const ahFormHTML = new AhFormHTML($citiesElement);
 
     if ($postalCode.val() !== "") {
@@ -138,11 +117,11 @@ $(document).ready(() => {
         if (value.length > 4) {
             let cities = ahApi.citiesFor(value);
             if (cities.length > 0) {
-                ahFormHTML.clearCities();
+                ahFormHTML.clearCities(false);
                 ahFormHTML.setCities(cities);
+            } else {
+                ahFormHTML.clearCities(true);
             }
-        } else {
-            ahFormHTML.clearCities(false);
         }
     })
 });
