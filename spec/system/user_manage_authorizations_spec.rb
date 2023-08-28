@@ -65,22 +65,7 @@ describe "Authorizations" do
       fill_in :authorization_handler_first_name, with: "John"
       fill_in :authorization_handler_address, with: "21 Jump Street"
       fill_in :authorization_handler_postal_code, with: "75018"
-
-      fill_in :authorization_handler_email, with: "user@example.org"
-      fill_in :authorization_handler_phone_number, with: "+33654321234"
-      check :authorization_handler_resident
-      check :authorization_handler_rgpd
-      click_button "Send"
-
-      expect(page).to have_content("You've been successfully authorized")
-    end
-
-    it "allows to select a city when multiple cities are enabled" do
-      fill_in :authorization_handler_last_name, with: "Doe"
-      fill_in :authorization_handler_first_name, with: "John"
-      fill_in :authorization_handler_address, with: "21 Jump Street"
-      fill_in :authorization_handler_postal_code, with: "75018"
-      select "PARIS 18", from: :authorization_handler_city
+      fill_in :authorization_handler_city, with: "PARIS 18"
 
       fill_in :authorization_handler_email, with: "user@example.org"
       fill_in :authorization_handler_phone_number, with: "+33654321234"
