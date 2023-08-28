@@ -89,7 +89,11 @@ $(document).ready(() => {
         var citiesElementIdentifier = "#authorization_handler_city"
         var postalCodeIdentifier = "#authorization_handler_postal_code"
     }
-
+    // /!\ WARNING
+    // Disable autocomplete based on zipcode because external API changed
+    // TODO: Refactor API
+    $("label[for='authorization_handler_birth_date'] select").wrapAll('<div class="select-date-container">');
+    return;
     const $citiesElement = $(citiesElementIdentifier);
     const $postalCode = $(postalCodeIdentifier);
     const ahApi = new AhApi();
